@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">The Use of Sensors on Google Glass</string>
+    <string name="title_activity_main">Main Activity</string>
+    <string name="hello_world">Nice to meet you</string>
+</resources>
