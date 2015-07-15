@@ -2,4 +2,9 @@
     <string name="app_name">The Use of Sensors on Google Glass</string>
     <string name="title_activity_main">Main Activity</string>
     <string name="hello_world">Nice to meet you</string>
+    <string name="title_activity_tutorial">Hello World Immersion</string>
+    <string name="glass_voice_trigger">Use of Sensors</string>
+    <string name="say_skip_tutorial">Say \'skip tutorial\' to skip</string>
+    <string name="welcome_tutorial">Welcome to Google Glass Tutorial</string>
+    <string name="tutorial_description_1">Your task to proceed to next card are marked with different color. Firstly <font fgcolor="gray"><b><i>tap on Touchpad</i></b></font>. You can skip this tutorial by saying \'skip tutorial\'.</string>
 </resources>
