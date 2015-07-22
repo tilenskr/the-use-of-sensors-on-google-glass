@@ -1,4 +1,4 @@
-package com.glass.tilen.theuseofsensorsongoogleglass.animations.check_mark;
+package com.glass.tilen.theuseofsensorsongoogleglass.animations.checkmark;
 
 
 import android.animation.Animator;

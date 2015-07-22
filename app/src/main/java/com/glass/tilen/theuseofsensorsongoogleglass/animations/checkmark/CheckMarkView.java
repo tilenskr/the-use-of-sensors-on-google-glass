@@ -1,4 +1,4 @@
-package com.glass.tilen.theuseofsensorsongoogleglass.animations.check_mark;
+package com.glass.tilen.theuseofsensorsongoogleglass.animations.checkmark;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -32,7 +32,7 @@ public class CheckMarkView extends FrameLayout implements Checkable {
                 }
             };
 
-    private static final long CHECK_MARK_ANIMATION_DURATION = 300;
+    public static final long CHECK_MARK_ANIMATION_DURATION = 300;
 
     private final CheckMarkDrawable mDrawable;
     private final Paint mPaint = new Paint();
