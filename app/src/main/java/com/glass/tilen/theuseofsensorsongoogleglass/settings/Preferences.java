@@ -1,4 +1,4 @@
-package com.glass.tilen.theuseofsensorsongoogleglass.preferences;
+package com.glass.tilen.theuseofsensorsongoogleglass.settings;
 
 import android.app.Activity;
 import android.content.Context;
