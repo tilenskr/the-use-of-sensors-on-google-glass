@@ -1,4 +1,4 @@
-package com.glass.tilen.theuseofsensorsongoogleglass.custom_views;
+package com.glass.tilen.theuseofsensorsongoogleglass.customviews;
 
 import android.content.Context;
 import android.util.AttributeSet;
