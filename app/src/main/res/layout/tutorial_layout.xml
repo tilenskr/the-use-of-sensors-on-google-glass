@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="@string/welcome_tutorial"
+                android:text="@string/tutorial_welcome_title"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvTitle"
-                android:text="@string/tutorial_description_1"
+                android:text="@string/tutorial_welcome_description"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
         </RelativeLayout>
@@ -42,19 +42,20 @@
             android:layout_height="match_parent"
             android:layout_toRightOf="@id/body_layout_left">
 
-            <com.glass.tilen.theuseofsensorsongoogleglass.animations.check_mark.CheckMarkView
+            <com.glass.tilen.theuseofsensorsongoogleglass.animations.checkmark.CheckMarkView
                 android:id="@+id/cvCheckMark"
                 android:layout_width="@dimen/check_mark_size"
                 android:layout_height="@dimen/check_mark_size"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
 
-            <com.glass.tilen.theuseofsensorsongoogleglass.animations.check_mark.CheckMarkView
+            <com.glass.tilen.theuseofsensorsongoogleglass.animations.checkmark.CheckMarkView
                 android:id="@+id/cvCheckMark2"
                 android:layout_width="@dimen/check_mark_size"
                 android:layout_height="@dimen/check_mark_size"
                 android:layout_alignParentBottom="true"
-                android:layout_alignStart="@+id/cvCheckMark" />
+                android:layout_alignStart="@+id/cvCheckMark"
+                android:visibility="gone" />
         </RelativeLayout>
     </RelativeLayout>
 
