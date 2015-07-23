@@ -46,7 +46,8 @@ public class TutorialCardAdapter extends CardScrollAdapter {
         // inflate our view
         Global.InfoDebug("TutorialCardAdapter.getView(): position: " + position + " view: " + convertView);
 
-        if(mTutorialCards.get(position).getHasBeenDone()) return mView.get(position);
+        if(mTutorialCards.get(position).getHasBeenDone())
+            return mView.get(position);
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         View tutorialLayout = layoutInflater.inflate(R.layout.tutorial_layout, null);
         TutorialCard mTutorialCard = mTutorialCards.get(position);
@@ -92,6 +93,7 @@ public class TutorialCardAdapter extends CardScrollAdapter {
     public enum TutorialCard
     {
         TAP_TOUCHPAD(R.string.tutorial_welcome_title, R.string.tutorial_welcome_description, 1),
+        SWIPEDOWN(R.string.tutorial_swipe_down_title, R.string.tutorial_swipe_down_description, 1),
         SWIPING (R.string.tutorial_swiping_title, R.string.tutorial_swiping_description, 2);
 
         private int titleId;
@@ -118,6 +120,11 @@ public class TutorialCardAdapter extends CardScrollAdapter {
         public boolean getHasBeenDone()
         {
             return hasBeenDone;
+        }
+
+        public void clearCheckMarkPressed()
+        {
+            checkMarkPressed = 0;
         }
 
         TutorialCard(int titleId, int descriptionId, int checkMarkCount) {
