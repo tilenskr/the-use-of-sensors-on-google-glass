@@ -67,6 +67,10 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
     protected void onResume() {
         super.onResume();
         mCardScroller.activate();
+        // to go to pause and change state of SpeechRecognizer will happen rarely, so we will not
+        // handle setting footer TextView to "". Maybe later. //TODO check if this will slow program and make glass hotter
+        mCardAdapter.setTextForFooter("");
+        mSpeechRecognition.intializeSpeechRecognizer();
     }
 
     @Override
@@ -133,7 +137,8 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
         }
         switch (mTutorialCard) {
             case SWIPING:
-                //checkForCorrectGesture(mTutorialCard,  TutorialCardAdapter.TutorialCard.SAYUPDOWN, gesture, Gesture.SWIPE_LEFT, Gesture.SWIPE_RIGHT); //TODO set proper card
+                returnValue = checkForCorrectGesture(mTutorialCard,  TutorialCardAdapter.TutorialCard.SAYLEFTRIGHT, gesture, Gesture.SWIPE_LEFT, Gesture.SWIPE_RIGHT); //TODO set proper card
+                mSpeechRecognition.switchSearch(KEYWORD_HORIZONTAL);
                 break;
             case SWIPEDOWN:
                returnValue = checkForCorrectGesture(mTutorialCard,  TutorialCardAdapter.TutorialCard.SAYUPDOWN, gesture, Gesture.SWIPE_DOWN);

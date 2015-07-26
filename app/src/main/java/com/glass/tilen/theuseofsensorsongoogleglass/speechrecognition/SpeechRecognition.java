@@ -24,6 +24,7 @@ public class SpeechRecognition implements RecognitionListener {
     private SpeechRecognitionCallback mCallback;
     private String[] keywordSearches;
     private String currentKeywordSearch;
+    private boolean isInitialized = false;
 
     public interface SpeechRecognitionCallback {
         void onSpeechResult(String text);
@@ -39,9 +40,17 @@ public class SpeechRecognition implements RecognitionListener {
         this.mCallback = mCallback;
         this.keywordSearches = keywordSearches;
         this.currentKeywordSearch = keywordSearches[0];// !priority - always take the first one that is named in constructor
-        new SetUpSpeechRecognizer().execute();
+        intializeSpeechRecognizer();
     }
 
+    public void intializeSpeechRecognizer()
+    {
+        if(this.isInitialized == false)
+            new SetUpSpeechRecognizer().execute();
+        this.isInitialized = true;
+
+
+    }
     private void setupRecognizer(File assetsDir) throws IOException {
         // The recognizer can be configured to perform multiple searches
         // of different kind and switch between them
@@ -119,6 +128,7 @@ public class SpeechRecognition implements RecognitionListener {
     {
         mSpeechRecognizer.cancel();
         mSpeechRecognizer.shutdown();
+        this.isInitialized = false;
     }
 
     private class SetUpSpeechRecognizer extends AsyncTask<Void, Void, Exception> {
