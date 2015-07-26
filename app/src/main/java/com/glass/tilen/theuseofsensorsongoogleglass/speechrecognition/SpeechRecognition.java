@@ -84,6 +84,7 @@ public class SpeechRecognition implements RecognitionListener {
     public void onPartialResult(Hypothesis hypothesis) {
         if (hypothesis != null) {
             String text = hypothesis.getHypstr();
+            text = text.trim();
             Global.SpeechDebug("SpeechRecognition.onPartialResult(): Speeched Text: " + text);
         }
     }
@@ -92,6 +93,7 @@ public class SpeechRecognition implements RecognitionListener {
     public void onResult(Hypothesis hypothesis) {
         if (hypothesis != null) {
             String text = hypothesis.getHypstr();
+            text = text.trim();
             Global.SpeechDebug("SpeechRecognition.onResult(): Speeched Text: " + text);
             mCallback.onSpeechResult(text);
         }
@@ -136,6 +138,7 @@ public class SpeechRecognition implements RecognitionListener {
                 Global.SpeechDebug("SpeechRecognition.SetUpSpeechRecognizer.onPostExecute(): Exception: " + resultText);
                 mCallback.onSpeechInitialized(resultText);
             } else {
+                Global.SpeechDebug("SpeechRecognition.SetUpSpeechRecognizer.onPostExecute(): Successful initialization");
                 mCallback.onSpeechInitialized(resultText);
                 switchSearch(currentKeywordSearch);
             }

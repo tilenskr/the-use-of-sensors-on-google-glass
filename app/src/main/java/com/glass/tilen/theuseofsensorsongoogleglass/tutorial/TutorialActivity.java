@@ -38,7 +38,10 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
     private Handler mHandler;
     private SpeechRecognition mSpeechRecognition;
 
-    /** keyword constants for SpeechRecognition **/
+    /**
+     * keyword constants for SpeechRecognition
+     **/
+    private final static String KEYWORD_VERTICAL = "tutorial_up_down";
     private final static String KEYWORD_HORIZONTAL = "tutorial_left_right";
 
     @Override
@@ -56,7 +59,7 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
         mCardScroller.setOnItemClickListener(this);
         mGestureDetector = new TutorialGestures(this, this);
         mHandler = new Handler();
-        mSpeechRecognition = new SpeechRecognition(this, this, KEYWORD_HORIZONTAL);
+        mSpeechRecognition = new SpeechRecognition(this, this, KEYWORD_VERTICAL, KEYWORD_HORIZONTAL);
     }
 
     @Override
@@ -67,14 +70,15 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
 
     @Override
     protected void onPause() {
-        mCardScroller.deactivate();
         super.onPause();
+        mCardScroller.deactivate();
         mSpeechRecognition.shutdownSpeechRecognition();
     }
 
 
-
-    /** called first (before we used (recommended) onGenericMotionEvent()) **/
+    /**
+     * called first (before we used (recommended) onGenericMotionEvent())
+     **/
     @Override
     public boolean dispatchGenericMotionEvent(MotionEvent ev) {
         return mGestureDetector.onMotionEvent(ev);
@@ -82,7 +86,7 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Global.LogDebug("TutorialActivty.onItemClick()");
+        Global.LogDebug("TutorialActivity.onItemClick()");
         TutorialCardAdapter.TutorialCard mTutorialCard = mCardAdapter.getTutorialCardAt(position);
         if (mTutorialCard.getHasBeenDone()) return;
         switch (mTutorialCard) {
@@ -105,7 +109,7 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
     public void insertCardWithAnimation(TutorialCardAdapter.TutorialCard mTutorialCard) {
         mCardAdapter.insertCardWithoutAnimation(mTutorialCard);
         //mCardAdapter.notifyDataSetChanged();
-        mCardScroller.animate(mCardAdapter.getCount()-1 , CardScrollView.Animation.INSERTION);
+        mCardScroller.animate(mCardAdapter.getCount() - 1, CardScrollView.Animation.INSERTION);
     }
 
     /**
@@ -122,53 +126,52 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
     public boolean onGestureDetected(Gesture gesture) {
         TutorialCardAdapter.TutorialCard mTutorialCard = (TutorialCardAdapter.TutorialCard) mCardScroller.getSelectedItem();
         boolean returnValue = false;
-            /** we don't want to get any event if there are ticks **/
-            if (mTutorialCard.getHasBeenDone()) {
-                return false;
-            }
-            switch (mTutorialCard) {
-                case SWIPING:
-                    int id = -1;
-                    if (gesture == Gesture.SWIPE_LEFT) {
-                        id = R.id.cvCheckMark;
-                        returnValue = true;
-                    } else if (gesture == Gesture.SWIPE_RIGHT) {
-                        id = R.id.cvCheckMark2;
-                        returnValue = true;
-                    }
-                    if (returnValue == true) {
-                        //setCheckMarkAndProceedForGesture(mTutorialCard, id); //TODO setProperCard
-                    }
-                    break;
-                case SWIPEDOWN:
-                    if (gesture == Gesture.SWIPE_DOWN) {
-                        returnValue = true;
-                        setCheckMarkAndProceedForGesture(mTutorialCard, TutorialCardAdapter.TutorialCard.SWIPING, R.id.cvCheckMark);
-                    }
-                    break;
-            }
+        /** we don't want to get any event if there are ticks **/
+        if (mTutorialCard.getHasBeenDone()) {
+            return false;
+        }
+        switch (mTutorialCard) {
+            case SWIPING:
+                //checkForCorrectGesture(mTutorialCard,  TutorialCardAdapter.TutorialCard.SAYUPDOWN, gesture, Gesture.SWIPE_LEFT, Gesture.SWIPE_RIGHT); //TODO set proper card
+                break;
+            case SWIPEDOWN:
+               returnValue = checkForCorrectGesture(mTutorialCard,  TutorialCardAdapter.TutorialCard.SAYUPDOWN, gesture, Gesture.SWIPE_DOWN);
+                break;
+        }
+        return returnValue;
+    }
+
+    private boolean checkForCorrectGesture(TutorialCardAdapter.TutorialCard mTutorialCard, TutorialCardAdapter.TutorialCard nextCard, Gesture currentGesture, Gesture... correctGestures) {
+        boolean returnValue = false;
+        int id = -1;
+        if (currentGesture == correctGestures[0]) {
+            id = R.id.cvCheckMark;
+        } else if (correctGestures.length > 1 && currentGesture == correctGestures[1]) {
+            id = R.id.cvCheckMark2;
+        }
+        if (id != -1) {
+            returnValue = true;
+            setCheckMarkAndProceed(mTutorialCard, nextCard, id);
+        }
         return returnValue;
     }
 
 
-    private void setCheckMarkAndProceedForGesture(TutorialCardAdapter.TutorialCard currentCard, TutorialCardAdapter.TutorialCard nextCard, int id)
-    {
-            View tutorialLayout = mCardScroller.getSelectedView();
-            CheckMarkView cvMarkView = (CheckMarkView) tutorialLayout.findViewById(id);
-            if (!cvMarkView.isChecked()) {
-                cvMarkView.toggle();
-                currentCard.setCheckMarkPressed();
-            }
-            Global.LogDebug("TutorialActivity.setCheckMarkAndProceedForGesture():  " + currentCard + ".getCheckMarkPressed(): " + currentCard.getCheckMarkPressed());
-            if (currentCard.getCheckMarkPressed() == currentCard.getCheckMarkCount()) {
-                currentCard.setHasBeenDone(true);
-                proceedWithNextCard(nextCard);
-
+    private void setCheckMarkAndProceed(TutorialCardAdapter.TutorialCard currentCard, TutorialCardAdapter.TutorialCard nextCard, int id) {
+        View tutorialLayout = mCardScroller.getSelectedView();
+        CheckMarkView cvMarkView = (CheckMarkView) tutorialLayout.findViewById(id);
+        if (!cvMarkView.isChecked()) {
+            cvMarkView.toggle();
+            currentCard.setCheckMarkPressed();
         }
-
+        Global.LogDebug("TutorialActivity.setCheckMarkAndProceed():  " + currentCard + ".getCheckMarkPressed(): " + currentCard.getCheckMarkPressed());
+        if (currentCard.getCheckMarkPressed() == currentCard.getCheckMarkCount()) {
+            currentCard.setHasBeenDone(true);
+            proceedWithNextCard(nextCard);
+        }
     }
-    private void proceedWithNextCard(final TutorialCardAdapter.TutorialCard mTutorialCard)
-    {
+
+    private void proceedWithNextCard(final TutorialCardAdapter.TutorialCard mTutorialCard) {
         Global.LogDebug("TutorialActivity.proceedWithNextCard() " + mTutorialCard);
         mAudioManager.playSoundEffect(Sounds.SUCCESS);
         mHandler.postDelayed(new Runnable() {
@@ -182,7 +185,32 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
 
     @Override
     public void onSpeechResult(String text) {
+        if (text.equals("skip tutorial")) {
+            //TODO go to app activity
+            return;
+        }
+        TutorialCardAdapter.TutorialCard mTutorialCard = (TutorialCardAdapter.TutorialCard) mCardScroller.getSelectedItem();
+        /** we don't want to get any event if there are ticks **/
+        if (mTutorialCard.getHasBeenDone()) {
+            return;
+        }
+        switch (mTutorialCard) {
+            case SAYUPDOWN:
+                checkForCorrectSpeech(mTutorialCard, text, "forward", "backward");
+                break;
+        }
+    }
 
+    private void checkForCorrectSpeech(TutorialCardAdapter.TutorialCard mTutorialCard, String spokenText, String... correctTexts) {
+            int id = -1;
+            if (spokenText.equals(correctTexts[0])) {
+                id = R.id.cvCheckMark;
+            } else if (correctTexts.length > 1 &&spokenText.equals(correctTexts[1])) {
+                id = R.id.cvCheckMark2;
+            }
+            if (id != -1) {
+                setCheckMarkAndProceed(mTutorialCard, TutorialCardAdapter.TutorialCard.SWIPING, id);
+            }
     }
 
     @Override

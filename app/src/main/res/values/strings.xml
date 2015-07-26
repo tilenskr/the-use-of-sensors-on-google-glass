@@ -11,5 +11,8 @@
     <string name="tutorial_swiping_description">And you can navigate it by swiping through <i>Card Builder</i> <font fgcolor="gray"><b><i>Swipe left to go to previous card</i></b></font>. <font fgcolor="gray"><b><i>Swipe right to go to next card</i></b></font> (currently there is no card).</string>
     <string name="tutorial_swipe_down_title">Swipe down to quit</string>
     <string name="tutorial_swipe_down_description">This is a new <i>Card</i>. You can quit app <font fgcolor="gray"><b><i>by swiping down Touchpad.</i></b></font> This is just a demonstration, so in this case this would not work.</string>
+    <string name="tutorial_say_up_down_title">Speak to enter and exit </string>
+    <string name="tutorial_say_up_down_description">You can speak to enter or go back in app. <font fgcolor="gray"><b><i>Say forward</i></b></font> to go onward. <font fgcolor="gray"><b><i>Say backward</i></b></font> to go back.</string>
 </resources>
+
 

@@ -109,6 +109,7 @@ public class TutorialCardAdapter extends CardScrollAdapter {
     {
         TAP_TOUCHPAD(R.string.tutorial_welcome_title, R.string.tutorial_welcome_description, 1),
         SWIPEDOWN(R.string.tutorial_swipe_down_title, R.string.tutorial_swipe_down_description, 1),
+        SAYUPDOWN(R.string.tutorial_say_up_down_title, R.string.tutorial_say_up_down_description, 2),
         SWIPING (R.string.tutorial_swiping_title, R.string.tutorial_swiping_description, 2);
 
         private int titleId;
