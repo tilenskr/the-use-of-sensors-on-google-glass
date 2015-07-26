@@ -126,9 +126,18 @@ public class SpeechRecognition implements RecognitionListener {
 
     public void shutdownSpeechRecognition()
     {
-        mSpeechRecognizer.cancel();
-        mSpeechRecognizer.shutdown();
-        this.isInitialized = false;
+        // there is error if we quit app faster than SpeechRecognizer takes to initialize
+        try {
+            if (this.isInitialized == true) {
+                mSpeechRecognizer.cancel();
+                mSpeechRecognizer.shutdown();
+                this.isInitialized = false;
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     private class SetUpSpeechRecognizer extends AsyncTask<Void, Void, Exception> {
