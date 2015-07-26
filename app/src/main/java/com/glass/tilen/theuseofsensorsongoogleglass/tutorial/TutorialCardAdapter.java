@@ -24,11 +24,13 @@ public class TutorialCardAdapter extends CardScrollAdapter {
     /** CardBuilder holds also a reference to the view, because convertView in getView is always null **/
     private final List<View> mView;
     private final Context mContext;
+    private String textForFooter;
 
     public TutorialCardAdapter(Context mContext) {
         mTutorialCards = new ArrayList<TutorialCard>();
         mView = new ArrayList<View>();
         this.mContext = mContext;
+        this.textForFooter = "";
     }
 
     @Override
@@ -63,6 +65,10 @@ public class TutorialCardAdapter extends CardScrollAdapter {
             cvCheckMark.setVisibility(View.GONE);
         else if(checkMarkCount == 2)
             cvCheckMark2.setVisibility(View.VISIBLE);
+        if(textForFooter != "") {
+            TextView tvFooter = (TextView) tutorialLayout.findViewById(R.id.tvFooter);
+            tvFooter.setText(textForFooter);
+        }
         mView.add(tutorialLayout);
         return tutorialLayout;
     }
@@ -83,11 +89,20 @@ public class TutorialCardAdapter extends CardScrollAdapter {
         mTutorialCards.add(mTutorialCard);
     }
 
-
-
     public TutorialCard getTutorialCardAt(int position)
     {
         return mTutorialCards.get(position);
+    }
+
+
+    public void setTextForFooter(String textToDisplay)
+    {
+        this.textForFooter = textToDisplay;
+        for(View tutorialLayout : mView)
+        {
+            TextView tvFooter = (TextView) tutorialLayout.findViewById(R.id.tvFooter);
+            tvFooter.setText(textToDisplay);
+        }
     }
 
     public enum TutorialCard

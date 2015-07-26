@@ -75,7 +75,7 @@
              will be ellipsized with a 40px margin between it and the timestamp. -->
 
         <TextView
-            android:id="@+id/footer"
+            android:id="@+id/tvFooter"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
