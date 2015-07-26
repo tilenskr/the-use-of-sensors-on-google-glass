@@ -111,7 +111,8 @@ public class TutorialCardAdapter extends CardScrollAdapter {
         SWIPEDOWN(R.string.tutorial_swipe_down_title, R.string.tutorial_swipe_down_description, 1),
         SAYUPDOWN(R.string.tutorial_say_up_down_title, R.string.tutorial_say_up_down_description, 2),
         SWIPING (R.string.tutorial_swiping_title, R.string.tutorial_swiping_description, 2),
-        SAYLEFTRIGHT (R.string.tutorial_say_left_right_title, R.string.tutorial_say_left_right_description, 2);
+        SAYLEFTRIGHT (R.string.tutorial_say_left_right_title, R.string.tutorial_say_left_right_description, 2),
+        LAST(R.string.tutorial_last_title, R.string.tutorial_last_description, 0);
 
         private int titleId;
         private int descriptionId;

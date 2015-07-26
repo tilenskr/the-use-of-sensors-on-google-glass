@@ -14,7 +14,7 @@
     <dimen name="glass_card_two_column_margin">30px</dimen>
 
     <!-- The maximum height of the body content inside a card. -->
-    <dimen name="glass_card_body_height">240px</dimen>
+    <dimen name="glass_card_body_height">250px</dimen>
 
     <!-- The maximum width of the body content inside a card. -->
     <dimen name="glass_card_body_width">560px</dimen>

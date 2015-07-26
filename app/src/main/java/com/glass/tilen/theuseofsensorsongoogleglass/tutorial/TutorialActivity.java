@@ -102,6 +102,9 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
                 // cvMarkView.setChecked(true);
                 proceedWithNextCard(TutorialCardAdapter.TutorialCard.SWIPEDOWN);
                 break;
+            case LAST:
+                goToDifferentActivity();
+                break;
             default:
                 mAudioManager.playSoundEffect(Sounds.ERROR);
                 break;
@@ -192,7 +195,7 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
     @Override
     public void onSpeechResult(String text) {
         if (text.equals("skip tutorial")) {
-            //TODO go to app activity
+            goToDifferentActivity();
             return;
         }
         TutorialCardAdapter.TutorialCard mTutorialCard = (TutorialCardAdapter.TutorialCard) mCardScroller.getSelectedItem();
@@ -202,12 +205,15 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
         }
         switch (mTutorialCard) {
             case SAYUPDOWN:
-                checkForCorrectSpeech(mTutorialCard, text, "forward", "backward");
+                checkForCorrectSpeech(mTutorialCard, TutorialCardAdapter.TutorialCard.SWIPING ,text, "forward", "backward");
+                break;
+            case SAYLEFTRIGHT:
+                checkForCorrectSpeech(mTutorialCard, TutorialCardAdapter.TutorialCard.LAST ,text, "left", "right");
                 break;
         }
     }
 
-    private void checkForCorrectSpeech(TutorialCardAdapter.TutorialCard mTutorialCard, String spokenText, String... correctTexts) {
+    private void checkForCorrectSpeech(TutorialCardAdapter.TutorialCard mTutorialCard, TutorialCardAdapter.TutorialCard nextCard, String spokenText, String... correctTexts) {
             int id = -1;
             if (spokenText.equals(correctTexts[0])) {
                 id = R.id.cvCheckMark;
@@ -215,7 +221,7 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
                 id = R.id.cvCheckMark2;
             }
             if (id != -1) {
-                setCheckMarkAndProceed(mTutorialCard, TutorialCardAdapter.TutorialCard.SWIPING, id);
+                setCheckMarkAndProceed(mTutorialCard, nextCard, id);
             }
     }
 
@@ -233,5 +239,12 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
         View tvFooter = tutorialLayout.findViewById(R.id.tvFooter);
         // we use the same duration as animation for CheckMarkView
         FrequentAnimations.fadeIn(tvFooter, CheckMarkView.CHECK_MARK_ANIMATION_DURATION);
+    }
+
+    private void goToDifferentActivity() //TODO change name to proper activity na set proper activity
+    {
+        mAudioManager.playSoundEffect(Sounds.SUCCESS);
+        Preferences.setStartActivity(this);
+        finish(); //TODO check how it's done in MainActvity to go to another activity
     }
 }

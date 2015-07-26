@@ -15,4 +15,6 @@
     <string name="tutorial_say_up_down_description">You can speak to enter or go back in app. <font fgcolor="gray"><b><i>Say forward</i></b></font> to go onward. <font fgcolor="gray"><b><i>Say backward</i></b></font> to go back.</string>
     <string name="tutorial_say_left_right_title">Speak to navigate</string>
     <string name="tutorial_say_left_right_description">You can speak to navigate left and right. <font fgcolor="gray"><b><i>Say left</i></b></font> to go to previous card. <font fgcolor="gray"><b><i>Say right</i></b></font> to go to next card.</string>
+    <string name="tutorial_last_title">Welcome to end of the beginning</string>
+    <string name="tutorial_last_description">You have successfully completed tutorial. By default speak navigation is enabled. You can disable it settings menu. <font fgcolor="gray"><b><i>Tap on Touchpad</i></b></font> to continue.</string>
 </resources>
