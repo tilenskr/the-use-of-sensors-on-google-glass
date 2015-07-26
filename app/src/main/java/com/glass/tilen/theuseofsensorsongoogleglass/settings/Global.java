@@ -12,11 +12,15 @@ public class Global {
     private static final String INFOTAG = "sensors.info";
     private static final String ERRORTAG = "sensors.error";
     private static final String TESTTAG = "sensors.test";
+    private static final String SPEECHTAG = "sensors.speech";
+
 
     private static final boolean debug = true;
     private static final boolean info = true;
     private static final boolean error = true;
     private static final boolean test = true;
+    private static final boolean speech = true;
+
 
     public static void LogDebug(String message) {
         if (debug)
@@ -36,6 +40,11 @@ public class Global {
     public static void TestDebug(String message) {
         if (test)
             Log.d(TESTTAG, message);
+    }
+
+    public static void SpeechDebug(String message) {
+        if (speech)
+            Log.d(SPEECHTAG, message);
     }
 
     public static AudioManager getAudioManager(Context context)
