@@ -81,7 +81,7 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="@string/say_skip_tutorial"
+            android:text=""
             android:textSize="12dp" />
 
 

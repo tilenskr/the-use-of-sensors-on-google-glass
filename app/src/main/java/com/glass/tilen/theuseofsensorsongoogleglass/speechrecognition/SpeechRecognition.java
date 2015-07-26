@@ -27,8 +27,11 @@ public class SpeechRecognition implements RecognitionListener {
 
     public interface SpeechRecognitionCallback {
         void onSpeechResult(String text);
-        /** exception if there is one or "" **/
-        void onSpeechInitialized(String resultText);
+        /**
+         * This method is used when state of SpeechRecognizer changes. It is used in initialization
+         * of SpeechRecognizer and for errors in SpeechRecognizer.
+         * @param resultText Exception message if there is one otherwise "".  **/
+        void onSpeechStateChanged(String resultText);
     }
 
     public SpeechRecognition(Context mContext, SpeechRecognitionCallback mCallback, String... keywordSearches) {
@@ -101,7 +104,9 @@ public class SpeechRecognition implements RecognitionListener {
 
     @Override
     public void onError(Exception e) {
-        Global.SpeechDebug("SpeechRecognition.onError(): Exception: " + e.getMessage());
+        String exceptionMessage = e.getMessage();
+        Global.SpeechDebug("SpeechRecognition.onError(): Exception: " + exceptionMessage);
+        mCallback.onSpeechStateChanged(exceptionMessage);
     }
 
     @Override
@@ -136,10 +141,10 @@ public class SpeechRecognition implements RecognitionListener {
             if (result != null) {  // if there is exception
                 resultText = result.getMessage();
                 Global.SpeechDebug("SpeechRecognition.SetUpSpeechRecognizer.onPostExecute(): Exception: " + resultText);
-                mCallback.onSpeechInitialized(resultText);
+                mCallback.onSpeechStateChanged(resultText);
             } else {
                 Global.SpeechDebug("SpeechRecognition.SetUpSpeechRecognizer.onPostExecute(): Successful initialization");
-                mCallback.onSpeechInitialized(resultText);
+                mCallback.onSpeechStateChanged(resultText);
                 switchSearch(currentKeywordSearch);
             }
         }

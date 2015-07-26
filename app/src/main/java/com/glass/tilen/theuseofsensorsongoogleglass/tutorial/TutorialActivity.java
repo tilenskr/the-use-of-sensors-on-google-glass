@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
+import com.glass.tilen.theuseofsensorsongoogleglass.animations.FrequentAnimations;
 import com.glass.tilen.theuseofsensorsongoogleglass.animations.checkmark.CheckMarkView;
 import com.glass.tilen.theuseofsensorsongoogleglass.customviews.CustomCardScrollView;
 import com.glass.tilen.theuseofsensorsongoogleglass.gestures.TutorialGestures;
@@ -214,7 +215,18 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
     }
 
     @Override
-    public void onSpeechInitialized(String resultText) {
+    public void onSpeechStateChanged(String resultText) {
+        if(resultText.equals(""))
+            resultText = getString(R.string.say_skip_tutorial);
+        setAnimationForFooterTextView();
+        mCardAdapter.setTextForFooter(resultText);
+    }
 
+    private void setAnimationForFooterTextView()
+    {
+        View tutorialLayout = mCardScroller.getSelectedView();
+        View tvFooter = tutorialLayout.findViewById(R.id.tvFooter);
+        // we use the same duration as animation for CheckMarkView
+        FrequentAnimations.fadeIn(tvFooter, CheckMarkView.CHECK_MARK_ANIMATION_DURATION);
     }
 }
