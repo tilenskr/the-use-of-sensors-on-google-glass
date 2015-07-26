@@ -14,6 +14,7 @@ import com.glass.tilen.theuseofsensorsongoogleglass.customviews.CustomCardScroll
 import com.glass.tilen.theuseofsensorsongoogleglass.gestures.TutorialGestures;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Preferences;
+import com.glass.tilen.theuseofsensorsongoogleglass.speechrecognition.SpeechRecognition;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.widget.CardScrollView;
@@ -28,17 +29,22 @@ import com.google.android.glass.widget.CardScrollView;
  *
  * @see <a href="https://developers.google.com/glass/develop/gdk/touch">GDK Developer Guide</a>
  */
-public class TutorialActivity extends Activity implements TutorialGestures.OnGestureCallback, AdapterView.OnItemClickListener {
+public class TutorialActivity extends Activity implements TutorialGestures.OnGestureCallback,
+        AdapterView.OnItemClickListener, SpeechRecognition.SpeechRecognitionCallback {
     private CustomCardScrollView mCardScroller;
     private TutorialCardAdapter mCardAdapter;
     private TutorialGestures mGestureDetector;
     private AudioManager mAudioManager;
     private Handler mHandler;
+    private SpeechRecognition mSpeechRecognition;
+
+    /** keyword constants for SpeechRecognition **/
+    private final static String KEYWORD_HORIZONTAL = "tutorial_left_right";
 
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-
+        Global.LogDebug("TutorialActivity.onCreate()");
         mCardScroller = new CustomCardScrollView(this);
         mCardAdapter = new TutorialCardAdapter(this);
         mCardAdapter.insertCardWithoutAnimation(TutorialCardAdapter.TutorialCard.TAP_TOUCHPAD);
@@ -50,6 +56,7 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
         mCardScroller.setOnItemClickListener(this);
         mGestureDetector = new TutorialGestures(this, this);
         mHandler = new Handler();
+        mSpeechRecognition = new SpeechRecognition(this, this, KEYWORD_HORIZONTAL);
     }
 
     @Override
@@ -62,6 +69,7 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
     protected void onPause() {
         mCardScroller.deactivate();
         super.onPause();
+        mSpeechRecognition.shutdownSpeechRecognition();
     }
 
 
@@ -169,6 +177,16 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
                 insertCardWithAnimation(mTutorialCard);
             }
         }, CheckMarkView.CHECK_MARK_ANIMATION_DURATION);
+
+    }
+
+    @Override
+    public void onSpeechResult(String text) {
+
+    }
+
+    @Override
+    public void onSpeechInitialized(String resultText) {
 
     }
 }
