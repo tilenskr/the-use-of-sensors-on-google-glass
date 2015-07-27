@@ -2,6 +2,7 @@ package com.glass.tilen.theuseofsensorsongoogleglass.speechrecognition;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
 
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
 
@@ -25,6 +26,7 @@ public class SpeechRecognition implements RecognitionListener {
     private String[] keywordSearches;
     private String currentKeywordSearch;
     private boolean isInitialized = false;
+    private Handler mHandler = null;
 
     public interface SpeechRecognitionCallback {
         void onSpeechResult(String text);
@@ -128,15 +130,25 @@ public class SpeechRecognition implements RecognitionListener {
     {
         // there is error if we quit app faster than SpeechRecognizer takes to initialize
         try {
-            if (this.isInitialized == true) {
+            //if (this.isInitialized == true) {
                 mSpeechRecognizer.cancel();
                 mSpeechRecognizer.shutdown();
                 this.isInitialized = false;
-            }
+            //}
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            Global.ErrorDebug("SpeechRecognition.shutdownSpeechRecognition(): Exception: " + e.getMessage());
+            if(mHandler == null)
+                mHandler = new Handler();
+            // if we quit app faster than it takes SpeechRecognizer to initialize,
+            // there would be error on initialization, so we use Handler
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    shutdownSpeechRecognition();
+                }
+            }, 500);
         }
     }
 
