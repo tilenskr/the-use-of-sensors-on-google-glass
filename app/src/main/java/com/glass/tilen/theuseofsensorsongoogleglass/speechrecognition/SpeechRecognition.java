@@ -28,6 +28,11 @@ public class SpeechRecognition implements RecognitionListener {
     private boolean isInitialized = false;
     private Handler mHandler = null;
 
+
+    // gram files for listening searches
+    public final static String KEYWORD_VERTICAL = "tutorial_up_down";
+    public final static String KEYWORD_HORIZONTAL = "tutorial_left_right";
+
     public interface SpeechRecognitionCallback {
         void onSpeechResult(String text);
         /**
@@ -37,15 +42,37 @@ public class SpeechRecognition implements RecognitionListener {
         void onSpeechStateChanged(String resultText);
     }
 
-    public SpeechRecognition(Context mContext, SpeechRecognitionCallback mCallback, String... keywordSearches) {
+    private static SpeechRecognition mSpeechRecognition = null;
+
+    public static SpeechRecognition getInstance(Context mContext)
+    {
+        //singleton
+        if(mSpeechRecognition == null)
+        {
+            mSpeechRecognition = new SpeechRecognition(mContext, KEYWORD_HORIZONTAL, KEYWORD_VERTICAL);
+        }
+
+        return mSpeechRecognition;
+    }
+    private SpeechRecognition(Context mContext,String... keywordSearches) {
         this.mContext = mContext;
-        this.mCallback = mCallback;
         this.keywordSearches = keywordSearches;
         this.currentKeywordSearch = keywordSearches[0];// !priority - always take the first one that is named in constructor
-        intializeSpeechRecognizer();
+        initializeSpeechRecognizer();
     }
 
-    public void intializeSpeechRecognizer()
+    public void setCallback(SpeechRecognitionCallback mCallback)
+    {
+        this.mCallback = mCallback;
+    }
+
+    public void cancelListening()
+    {
+        mCallback = null;
+        mSpeechRecognizer.cancel();
+    }
+
+    public void initializeSpeechRecognizer()
     {
         if(this.isInitialized == false)
             new SetUpSpeechRecognizer().execute();

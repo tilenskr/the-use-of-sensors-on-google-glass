@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.glass.tilen.theuseofsensorsongoogleglass.MainApplication;
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.animations.FrequentAnimations;
 import com.glass.tilen.theuseofsensorsongoogleglass.animations.checkmark.CheckMarkView;
@@ -42,8 +43,7 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
     /**
      * keyword constants for SpeechRecognition
      **/
-    private final static String KEYWORD_VERTICAL = "tutorial_up_down";
-    private final static String KEYWORD_HORIZONTAL = "tutorial_left_right";
+
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -60,7 +60,7 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
         mCardScroller.setOnItemClickListener(this);
         mGestureDetector = new TutorialGestures(this, this);
         mHandler = new Handler();
-        mSpeechRecognition = new SpeechRecognition(this, this, KEYWORD_VERTICAL, KEYWORD_HORIZONTAL);
+        mSpeechRecognition = MainApplication.getInstance(); //new SpeechRecognition(this, this, KEYWORD_VERTICAL, KEYWORD_HORIZONTAL);
     }
 
     @Override
@@ -70,14 +70,15 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
         // to go to pause and change state of SpeechRecognizer will happen rarely, so we will not
         // handle setting footer TextView to "". Maybe later. //TODO check if this will slow program and make glass hotter
         mCardAdapter.setTextForFooter("");
-        mSpeechRecognition.intializeSpeechRecognizer();
+        mSpeechRecognition.initializeSpeechRecognizer();
+        mSpeechRecognition.setCallback(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mCardScroller.deactivate();
-        mSpeechRecognition.shutdownSpeechRecognition();
+        mSpeechRecognition.cancelListening();
     }
 
 
@@ -141,7 +142,7 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
         switch (mTutorialCard) {
             case SWIPING:
                 returnValue = checkForCorrectGesture(mTutorialCard,  TutorialCardAdapter.TutorialCard.SAYLEFTRIGHT, gesture, Gesture.SWIPE_LEFT, Gesture.SWIPE_RIGHT); //TODO set proper card
-                mSpeechRecognition.switchSearch(KEYWORD_HORIZONTAL);
+                mSpeechRecognition.switchSearch(SpeechRecognition.KEYWORD_HORIZONTAL);
                 break;
             case SWIPEDOWN:
                returnValue = checkForCorrectGesture(mTutorialCard,  TutorialCardAdapter.TutorialCard.SAYUPDOWN, gesture, Gesture.SWIPE_DOWN);
