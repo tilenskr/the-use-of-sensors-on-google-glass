@@ -1,0 +1,6 @@
+Before resizing , convert it into smart object.
+
+Right click on the layer of the image ---> Convert it into Smart Object.
+
+Then: Image > Image Size > Resample Image (Check Resample) and choose Bicubic Sharper
+(is for reduction) from the dropdown menu.
