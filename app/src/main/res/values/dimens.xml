@@ -29,4 +29,9 @@
     <dimen name="long_check_mark_bar">22dp</dimen>
     <dimen name="short_check_mark_bar">11dp</dimen>
     <dimen name="check_mark_size">100px</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="tutorial_layout_title">30dp</dimen>
 </resources>
