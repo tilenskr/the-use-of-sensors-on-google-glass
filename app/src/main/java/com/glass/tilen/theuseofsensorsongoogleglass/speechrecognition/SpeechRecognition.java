@@ -42,10 +42,10 @@ public class SpeechRecognition implements RecognitionListener {
         this.mCallback = mCallback;
         this.keywordSearches = keywordSearches;
         this.currentKeywordSearch = keywordSearches[0];// !priority - always take the first one that is named in constructor
-        intializeSpeechRecognizer();
+        initializeSpeechRecognizer();
     }
 
-    public void intializeSpeechRecognizer()
+    public void initializeSpeechRecognizer()
     {
         if(this.isInitialized == false)
             new SetUpSpeechRecognizer().execute();
