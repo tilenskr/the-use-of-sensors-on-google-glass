@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.glass.tilen.theuseofsensorsongoogleglass.SensorsActivity">
+    tools:context="com.glass.tilen.theuseofsensorsongoogleglass.sensors.SensorsActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" android:showAsAction="never" />
 </menu>

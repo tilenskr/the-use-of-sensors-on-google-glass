@@ -16,7 +16,7 @@
             android:id="@+id/ivRightPicture"
             android:layout_width="match_parent"
             android:background="@color/sensor_layout_picture_background"
-            android:src="@drawable/ic_summary"
+            android:src="@drawable/ic_overview"
             android:scaleType="center"
             android:layout_height="match_parent" />
         <!-- Put widgets for the left column inside this RelativeLayout. -->
@@ -68,7 +68,7 @@
         -->
 
         <TextView
-            android:id="@+id/footer"
+            android:id="@+id/tvFooter"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"

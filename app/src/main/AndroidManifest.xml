@@ -31,7 +31,7 @@
             android:name=".tutorial.TutorialActivity"
             android:exported="false"></activity>
         <activity
-            android:name=".SensorsActivity"/>
+            android:name=".sensors.SensorsActivity"/>
 
     </application>
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.glass.tilen.theuseofsensorsongoogleglass.sensors.SensorsActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Preferences;
 import com.google.android.glass.widget.CardScrollView;
 
