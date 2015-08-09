@@ -1,26 +1,22 @@
 package com.glass.tilen.theuseofsensorsongoogleglass.sensors;
 
-import android.app.Activity;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.glass.tilen.theuseofsensorsongoogleglass.BaseActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.customviews.CustomCardScrollView;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
-import com.glass.tilen.theuseofsensorsongoogleglass.settings.Preferences;
 import com.glass.tilen.theuseofsensorsongoogleglass.speechrecognition.SpeechRecognition;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardScrollView;
 
-public class SensorsActivity extends Activity implements AdapterView.OnItemClickListener,
+public class SensorsActivity extends BaseActivity implements AdapterView.OnItemClickListener,
         SpeechRecognition.SpeechRecognitionCallback {
 
     private CustomCardScrollView mCardScroller;
     private SensorsCardAdapter mCardAdapter;
-    private SpeechRecognition mSpeechRecognition;
-    private AudioManager mAudioManager;
 
 
     @Override
@@ -30,8 +26,6 @@ public class SensorsActivity extends Activity implements AdapterView.OnItemClick
         mCardAdapter = new SensorsCardAdapter(this);
         mCardScroller.setAdapter(mCardAdapter);
         setContentView(mCardScroller);
-        Preferences.setScreenOn(this);
-        mAudioManager = Global.getAudioManager(this);
         mCardScroller.setOnItemClickListener(this);
         mSpeechRecognition = new SpeechRecognition(this, this, SpeechRecognition.KEYWORD_NAVIGATION_ALL);
     }
@@ -43,14 +37,12 @@ public class SensorsActivity extends Activity implements AdapterView.OnItemClick
         // to go to pause and change state of SpeechRecognizer will happen rarely, so we will not
         // handle setting footer TextView to "". Maybe later. //TODO check if this will slow program and make glass hotter
         mCardAdapter.setTextForFooter("");
-        mSpeechRecognition.initializeSpeechRecognizer();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mCardScroller.deactivate();
-        mSpeechRecognition.shutdownSpeechRecognition();
     }
 
     @Override
