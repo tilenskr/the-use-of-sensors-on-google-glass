@@ -33,5 +33,5 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="tutorial_layout_title">30dp</dimen>
+    <dimen name="sensors_layout_title">35dp</dimen>
 </resources>

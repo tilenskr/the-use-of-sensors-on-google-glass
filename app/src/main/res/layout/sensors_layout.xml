@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text="@string/tutorial_welcome_title"
-            android:textSize="@dimen/tutorial_layout_title"/>
+            android:textSize="@dimen/sensors_layout_title"/>
 
         <!-- Put widgets for the right column inside this RelativeLayout. -->
 
