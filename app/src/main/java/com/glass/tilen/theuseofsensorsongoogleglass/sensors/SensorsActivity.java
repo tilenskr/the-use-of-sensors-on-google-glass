@@ -11,6 +11,7 @@ import com.glass.tilen.theuseofsensorsongoogleglass.customviews.CustomCardScroll
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.manager.overview.OverviewActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
 import com.glass.tilen.theuseofsensorsongoogleglass.speechrecognition.SpeechRecognition;
+import com.glass.tilen.theuseofsensorsongoogleglass.tutorial.TutorialActivity;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardScrollView;
 
@@ -61,6 +62,8 @@ public class SensorsActivity extends BaseActivity implements AdapterView.OnItemC
             case HEAD_DETECTION:
                 break;
             case REPEAT_TUTORIAL:
+                intent = new Intent(this, TutorialActivity.class);
+                intent.putExtra(TutorialActivity.START_ACTIVITY, false);
                 break;
             case SENSORS_OVERVIEW:
                 intent = new Intent(this, OverviewActivity.class);

@@ -1,6 +1,7 @@
 package com.glass.tilen.theuseofsensorsongoogleglass.tutorial;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import com.glass.tilen.theuseofsensorsongoogleglass.animations.FrequentAnimation
 import com.glass.tilen.theuseofsensorsongoogleglass.animations.checkmark.CheckMarkView;
 import com.glass.tilen.theuseofsensorsongoogleglass.customviews.CustomCardScrollView;
 import com.glass.tilen.theuseofsensorsongoogleglass.gestures.TutorialGestures;
+import com.glass.tilen.theuseofsensorsongoogleglass.sensors.SensorsActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Preferences;
 import com.glass.tilen.theuseofsensorsongoogleglass.speechrecognition.SpeechRecognition;
@@ -45,10 +47,19 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
     private final static String KEYWORD_VERTICAL = "tutorial_up_down";
     private final static String KEYWORD_HORIZONTAL = "tutorial_left_right";
 
+    // constants from bundle
+    /**
+     * we need to start activity if we launch it from beginning, otherwise we don't
+     * (SensorsActivity is on backstack)
+     **/
+    public final static String START_ACTIVITY = "start_activity";
+    private boolean startActivity;
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+        // TODO always enable speech recognition if user go to TutorialActivity
         Global.LogDebug("TutorialActivity.onCreate()");
+        startActivity = getIntent().getBooleanExtra(START_ACTIVITY, true);
         mCardScroller = new CustomCardScrollView(this);
         mCardAdapter = new TutorialCardAdapter(this);
         mCardAdapter.insertCardWithoutAnimation(TutorialCardAdapter.TutorialCard.TAP_TOUCHPAD);
@@ -103,7 +114,7 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
                 proceedWithNextCard(TutorialCardAdapter.TutorialCard.SWIPEDOWN);
                 break;
             case LAST:
-                goToDifferentActivity();
+                goToSensorsActivity();
                 break;
             default:
                 mAudioManager.playSoundEffect(Sounds.ERROR);
@@ -195,7 +206,7 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
     @Override
     public void onSpeechResult(String text) {
         if (text.equals("skip tutorial")) {
-            goToDifferentActivity();
+            goToSensorsActivity();
             return;
         }
         TutorialCardAdapter.TutorialCard mTutorialCard = (TutorialCardAdapter.TutorialCard) mCardScroller.getSelectedItem();
@@ -241,10 +252,14 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
         FrequentAnimations.fadeIn(tvFooter, CheckMarkView.CHECK_MARK_ANIMATION_DURATION);
     }
 
-    private void goToDifferentActivity() //TODO change name to proper activity na set proper activity
+    private void goToSensorsActivity()
     {
         mAudioManager.playSoundEffect(Sounds.SUCCESS);
         Preferences.setStartActivity(this);
-        finish(); //TODO check how it's done in MainActvity to go to another activity
+        if(startActivity == true) {
+            Intent intent = new Intent(this, SensorsActivity.class);
+            startActivity(intent);
+        }
+        finish();
     }
 }

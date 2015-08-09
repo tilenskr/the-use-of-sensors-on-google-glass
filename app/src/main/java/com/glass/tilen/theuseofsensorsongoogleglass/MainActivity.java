@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.SensorsActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Preferences;
+import com.glass.tilen.theuseofsensorsongoogleglass.tutorial.TutorialActivity;
 import com.google.android.glass.widget.CardScrollView;
 
 /**
@@ -25,9 +26,9 @@ public class MainActivity extends Activity {
         super.onCreate(bundle);
         Intent intent;
         if(Preferences.startTutorial(this))
-            intent = new Intent(this, SensorsActivity.class);
+            intent = new Intent(this, TutorialActivity.class);
         else
-            intent = new Intent(this, SensorsActivity.class); //TODO setProperActivity
+            intent = new Intent(this, SensorsActivity.class);
         startActivity(intent);
         finish();
     }
