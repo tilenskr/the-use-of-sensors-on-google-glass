@@ -25,4 +25,10 @@
     <string name="sensors_repeat_title">Repeat tutorial</string>
     <string name="sensors_overview_title">Overview of sensors</string>
     <string name="sensors_settings_title">Settings</string>
+    <string name="speak_navigate">Speak to navigate</string>
+    <string name="speak_disabled">Speech recognition is disabled</string>
+    <string name="forward">forward</string>
+    <string name="backward">backward</string>
+    <string name="left">left</string>
+    <string name="right">right</string>
 </resources>
