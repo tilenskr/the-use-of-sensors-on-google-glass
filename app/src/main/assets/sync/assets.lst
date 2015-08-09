@@ -7,5 +7,6 @@ en-us-ptm/noisedict
 en-us-ptm/sendump
 en-us-ptm/transition_matrices
 en-us-ptm/variances
+navigation_all.gram
 tutorial_left_right.gram
 tutorial_up_down.gram

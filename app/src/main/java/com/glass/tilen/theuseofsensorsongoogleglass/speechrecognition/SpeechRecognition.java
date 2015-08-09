@@ -28,6 +28,11 @@ public class SpeechRecognition implements RecognitionListener {
     private boolean isInitialized = false;
     private Handler mHandler = null;
 
+    /**
+     * keyword constants for mSpeechRecognizer
+     **/
+    public static final String KEYWORD_NAVIGATION_ALL = "navigation_all";
+
     public interface SpeechRecognitionCallback {
         void onSpeechResult(String text);
         /**
