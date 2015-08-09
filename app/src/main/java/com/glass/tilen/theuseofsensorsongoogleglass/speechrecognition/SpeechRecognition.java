@@ -33,6 +33,21 @@ public class SpeechRecognition implements RecognitionListener {
      **/
     public static final String KEYWORD_NAVIGATION_ALL = "navigation_all";
 
+
+    private static SpeechRecognition ourInstance = null;
+
+    public static SpeechRecognition getInstance(Context mContext, SpeechRecognitionCallback mCallback, String... keywordSearches) {
+        if(ourInstance == null)
+        {
+            ourInstance = new SpeechRecognition(mContext, mCallback, keywordSearches);
+        }
+        else
+        {
+            ourInstance.initialize(mContext, mCallback, keywordSearches);
+        }
+        return ourInstance;
+    }
+
     public interface SpeechRecognitionCallback {
         /**
          * This method is used when state of SpeechRecognizer changes. It is used in initialization
@@ -43,16 +58,22 @@ public class SpeechRecognition implements RecognitionListener {
         void onSpeechResult(String text);
     }
 
-    public SpeechRecognition(Context mContext, SpeechRecognitionCallback mCallback, String... keywordSearches) {
+    private SpeechRecognition(Context mContext, SpeechRecognitionCallback mCallback, String... keywordSearches) {
+        initialize(mContext, mCallback, keywordSearches);
+    }
+    public void initialize(Context mContext, SpeechRecognitionCallback mCallback, String... keywordSearches)
+    {
         this.mContext = mContext;
         this.mCallback = mCallback;
         this.keywordSearches = keywordSearches;
         this.currentKeywordSearch = keywordSearches[0];// !priority - always take the first one that is named in constructor
-        initializeSpeechRecognizer();
+        initializeSpeechRecognizer(mCallback, keywordSearches);
     }
 
-    public void initializeSpeechRecognizer()
+    public void initializeSpeechRecognizer(SpeechRecognitionCallback mCallback, String... keywordSearches)
     {
+        this.mCallback = mCallback;
+        this.keywordSearches = keywordSearches;
         if(this.isInitialized == false)
             new SetUpSpeechRecognizer().execute();
         this.isInitialized = true;

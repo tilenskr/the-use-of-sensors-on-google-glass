@@ -22,7 +22,7 @@ public class OverviewActivity extends BaseActivity implements SpeechRecognition.
         mCardAdapter = new OverviewCardAdapter(this, MainSensorManager.getAllSensors(this));
         mCardScroller.setAdapter(mCardAdapter);
         setContentView(mCardScroller);
-        mSpeechRecognition = new SpeechRecognition(this, this, SpeechRecognition.KEYWORD_NAVIGATION_ALL);
+        mSpeechRecognition = SpeechRecognition.getInstance(this, this, SpeechRecognition.KEYWORD_NAVIGATION_ALL);
 
     }
     @Override
@@ -32,6 +32,7 @@ public class OverviewActivity extends BaseActivity implements SpeechRecognition.
         // to go to pause and change state of SpeechRecognizer will happen rarely, so we will not
         // handle setting footer TextView to "". Maybe later. //TODO check if this will slow program and make glass hotter
         mCardAdapter.setTextForFooter("");
+        mSpeechRecognition.initializeSpeechRecognizer(this, SpeechRecognition.KEYWORD_NAVIGATION_ALL);
     }
 
     @Override

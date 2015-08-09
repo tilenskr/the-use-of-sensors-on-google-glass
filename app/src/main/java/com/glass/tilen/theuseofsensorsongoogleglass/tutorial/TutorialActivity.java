@@ -71,7 +71,7 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
         mCardScroller.setOnItemClickListener(this);
         mGestureDetector = new TutorialGestures(this, this);
         mHandler = new Handler();
-        mSpeechRecognition = new SpeechRecognition(this, this, KEYWORD_VERTICAL, KEYWORD_HORIZONTAL);
+        mSpeechRecognition = SpeechRecognition.getInstance(this, this, KEYWORD_VERTICAL, KEYWORD_HORIZONTAL);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
         // to go to pause and change state of SpeechRecognizer will happen rarely, so we will not
         // handle setting footer TextView to "". Maybe later. //TODO check if this will slow program and make glass hotter
         mCardAdapter.setTextForFooter("");
-        mSpeechRecognition.initializeSpeechRecognizer();
+        mSpeechRecognition.initializeSpeechRecognizer(this, KEYWORD_VERTICAL, KEYWORD_HORIZONTAL);
     }
 
     @Override

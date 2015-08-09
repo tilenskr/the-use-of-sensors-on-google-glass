@@ -27,7 +27,6 @@ public abstract class BaseActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        mSpeechRecognition.initializeSpeechRecognizer();
     }
 
     @Override
