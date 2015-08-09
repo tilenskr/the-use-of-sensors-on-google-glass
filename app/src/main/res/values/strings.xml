@@ -31,4 +31,7 @@
     <string name="backward">backward</string>
     <string name="left">left</string>
     <string name="right">right</string>
+    <string name="title_activity_overview">OverviewActivity</string>
+    <string name="overview_vendor">Vendor: %1$s</string>
+    <string name="overview_version">Sensor version: %1$d</string>
 </resources>

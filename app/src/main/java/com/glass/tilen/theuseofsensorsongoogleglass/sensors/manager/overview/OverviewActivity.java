@@ -1,37 +1,30 @@
-package com.glass.tilen.theuseofsensorsongoogleglass.sensors;
+package com.glass.tilen.theuseofsensorsongoogleglass.sensors.manager.overview;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 
 import com.glass.tilen.theuseofsensorsongoogleglass.BaseActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.customviews.CustomCardScrollView;
-import com.glass.tilen.theuseofsensorsongoogleglass.sensors.manager.overview.OverviewActivity;
-import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
+import com.glass.tilen.theuseofsensorsongoogleglass.sensors.manager.MainSensorManager;
 import com.glass.tilen.theuseofsensorsongoogleglass.speechrecognition.SpeechRecognition;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardScrollView;
 
-public class SensorsActivity extends BaseActivity implements AdapterView.OnItemClickListener,
-        SpeechRecognition.SpeechRecognitionCallback {
+public class OverviewActivity extends BaseActivity implements SpeechRecognition.SpeechRecognitionCallback {
 
     private CustomCardScrollView mCardScroller;
-    private SensorsCardAdapter mCardAdapter;
-
+    private OverviewCardAdapter mCardAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCardScroller = new CustomCardScrollView(this);
-        mCardAdapter = new SensorsCardAdapter(this);
+        mCardAdapter = new OverviewCardAdapter(this, MainSensorManager.getAllSensors(this));
         mCardScroller.setAdapter(mCardAdapter);
         setContentView(mCardScroller);
-        mCardScroller.setOnItemClickListener(this);
         mSpeechRecognition = new SpeechRecognition(this, this, SpeechRecognition.KEYWORD_NAVIGATION_ALL);
-    }
 
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -47,30 +40,6 @@ public class SensorsActivity extends BaseActivity implements AdapterView.OnItemC
         mCardScroller.deactivate();
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Global.LogDebug("SensorsActivity.onItemClick()");
-        mAudioManager.playSoundEffect(Sounds.TAP);
-        Intent intent = null;
-        switch ((SensorsCardAdapter.SensorsCard)mCardAdapter.getItem(position))
-        {
-            case GRAPH_SENSORS:
-                break;
-            case AMBIENT_LIGHT:
-                break;
-            case HEAD_DETECTION:
-                break;
-            case REPEAT_TUTORIAL:
-                break;
-            case SENSORS_OVERVIEW:
-                intent = new Intent(this, OverviewActivity.class);
-                break;
-            case SETTINGS:
-                break;
-        }
-        startActivity(intent);
-
-    }
 
     @Override
     public void onSpeechStateChanged(String resultText) {
@@ -84,11 +53,7 @@ public class SensorsActivity extends BaseActivity implements AdapterView.OnItemC
     public void onSpeechResult(String text) {
         // can not use switch, because string needs to be declared as final
         // this way is better if we would implement localization (probably never)
-        if(text.equals(getString(R.string.forward)))
-        {
-            onItemClick(null, null, mCardScroller.getSelectedItemPosition(), -1);
-        }
-        else if(text.equals(getString(R.string.backward)))
+        if(text.equals(getString(R.string.backward)))
         {
             mAudioManager.playSoundEffect(Sounds.DISMISSED);
             finish();
@@ -105,8 +70,8 @@ public class SensorsActivity extends BaseActivity implements AdapterView.OnItemC
             position++;
             navigateToCard(position);
         }
-
     }
+
 
     /** Navigates to card at given position. */
     private void navigateToCard(int position) {

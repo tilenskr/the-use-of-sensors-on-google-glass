@@ -34,12 +34,13 @@ public class SpeechRecognition implements RecognitionListener {
     public static final String KEYWORD_NAVIGATION_ALL = "navigation_all";
 
     public interface SpeechRecognitionCallback {
-        void onSpeechResult(String text);
         /**
          * This method is used when state of SpeechRecognizer changes. It is used in initialization
          * of SpeechRecognizer and for errors in SpeechRecognizer.
-         * @param resultText Exception message if there is one otherwise "".  **/
+         * @param resultText Exception message if there is one otherwise "".
+         **/
         void onSpeechStateChanged(String resultText);
+        void onSpeechResult(String text);
     }
 
     public SpeechRecognition(Context mContext, SpeechRecognitionCallback mCallback, String... keywordSearches) {
