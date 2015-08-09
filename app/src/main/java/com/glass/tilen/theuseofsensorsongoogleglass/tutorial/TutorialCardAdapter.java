@@ -52,6 +52,13 @@ public class TutorialCardAdapter extends CardScrollAdapter {
             return mView.get(position);
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         View tutorialLayout = layoutInflater.inflate(R.layout.tutorial_layout, null);
+        populateView(tutorialLayout, position);
+        mView.add(tutorialLayout);
+        return tutorialLayout;
+    }
+
+    private void populateView(View tutorialLayout, int position)
+    {
         TutorialCard mTutorialCard = mTutorialCards.get(position);
         TextView tvTitle = (TextView) tutorialLayout.findViewById(R.id.tvTitle);
         TextView tvDescription = (TextView) tutorialLayout.findViewById(R.id.tvDescription);
@@ -69,8 +76,6 @@ public class TutorialCardAdapter extends CardScrollAdapter {
             TextView tvFooter = (TextView) tutorialLayout.findViewById(R.id.tvFooter);
             tvFooter.setText(textForFooter);
         }
-        mView.add(tutorialLayout);
-        return tutorialLayout;
     }
 
     @Override
