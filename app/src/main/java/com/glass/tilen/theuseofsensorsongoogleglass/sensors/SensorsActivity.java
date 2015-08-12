@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import com.glass.tilen.theuseofsensorsongoogleglass.BaseActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.customviews.CustomCardScrollView;
-import com.glass.tilen.theuseofsensorsongoogleglass.sensors.manager.overview.OverviewActivity;
+import com.glass.tilen.theuseofsensorsongoogleglass.sensors.overview.OverviewActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
 import com.glass.tilen.theuseofsensorsongoogleglass.speechrecognition.SpeechRecognition;
 import com.glass.tilen.theuseofsensorsongoogleglass.tutorial.TutorialActivity;

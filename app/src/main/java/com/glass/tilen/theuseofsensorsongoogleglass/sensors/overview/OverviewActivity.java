@@ -1,4 +1,4 @@
-package com.glass.tilen.theuseofsensorsongoogleglass.sensors.manager.overview;
+package com.glass.tilen.theuseofsensorsongoogleglass.sensors.overview;
 
 import android.os.Bundle;
 

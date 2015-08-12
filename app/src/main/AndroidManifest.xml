@@ -32,7 +32,7 @@
             android:exported="false" />
         <activity android:name=".sensors.SensorsActivity" />
         <activity
-            android:name=".sensors.manager.overview.OverviewActivity"
+            android:name=".sensors.overview.OverviewActivity"
             android:label="@string/title_activity_overview" >
         </activity>
     </application>
