@@ -9,6 +9,7 @@ import com.glass.tilen.theuseofsensorsongoogleglass.BaseActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.customviews.CustomCardScrollView;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.overview.OverviewActivity;
+import com.glass.tilen.theuseofsensorsongoogleglass.sensors.settings.SettingsActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
 import com.glass.tilen.theuseofsensorsongoogleglass.speechrecognition.SpeechRecognition;
 import com.glass.tilen.theuseofsensorsongoogleglass.tutorial.TutorialActivity;
@@ -69,6 +70,7 @@ public class SensorsActivity extends BaseActivity implements AdapterView.OnItemC
                 intent = new Intent(this, OverviewActivity.class);
                 break;
             case SETTINGS:
+                intent = new Intent(this, SettingsActivity.class);
                 break;
         }
         startActivity(intent);

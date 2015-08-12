@@ -34,4 +34,8 @@
     <string name="title_activity_overview">OverviewActivity</string>
     <string name="overview_vendor">Vendor: %1$s</string>
     <string name="overview_version">Sensor version: %1$d</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="settings_speech_recognition_title">Speech Recognition</string>
+    <string name="message_off"><b>Off</b></string>
+    <string name="message_on">On</string>
 </resources>
