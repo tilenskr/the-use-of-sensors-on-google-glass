@@ -41,7 +41,7 @@
             android:scaleType="fitCenter" />
 
         <TextView
-            android:id="@+id/tvAction"
+            android:id="@+id/tvOverviewAction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -75,7 +75,6 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="Speak to naviagtae"
             android:textAppearance="?android:attr/textAppearanceSmall"
             />
 

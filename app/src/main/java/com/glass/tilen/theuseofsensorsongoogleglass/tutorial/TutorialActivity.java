@@ -249,7 +249,7 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
         View tutorialLayout = mCardScroller.getSelectedView();
         View tvFooter = tutorialLayout.findViewById(R.id.tvFooter);
         // we use the same duration as animation for CheckMarkView
-        FrequentAnimations.fadeIn(tvFooter, CheckMarkView.CHECK_MARK_ANIMATION_DURATION);
+        FrequentAnimations.fadeIn(tvFooter, "");
     }
 
     private void goToSensorsActivity()

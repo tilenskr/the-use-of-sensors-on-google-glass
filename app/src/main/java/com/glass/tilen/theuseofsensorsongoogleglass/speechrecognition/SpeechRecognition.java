@@ -4,7 +4,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 
+import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
+import com.glass.tilen.theuseofsensorsongoogleglass.settings.Preferences;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +29,7 @@ public class SpeechRecognition implements RecognitionListener {
     private String currentKeywordSearch;
     private boolean isInitialized = false;
     private Handler mHandler = null;
+    private boolean active;
 
     /**
      * keyword constants for mSpeechRecognizer
@@ -43,19 +46,34 @@ public class SpeechRecognition implements RecognitionListener {
         void onSpeechResult(String text);
     }
 
-    public SpeechRecognition(Context mContext, SpeechRecognitionCallback mCallback, String... keywordSearches) {
+    public SpeechRecognition(final Context mContext, final SpeechRecognitionCallback mCallback, String... keywordSearches) {
         this.mContext = mContext;
         this.mCallback = mCallback;
         this.keywordSearches = keywordSearches;
         this.currentKeywordSearch = keywordSearches[0];// !priority - always take the first one that is named in constructor
-        initializeSpeechRecognizer();
+        this.active = Preferences.isSpeechRecognitionOn(mContext); //TODO move this to activity
+            initializeSpeechRecognizer();
     }
 
     public void initializeSpeechRecognizer()
     {
-        if(this.isInitialized == false)
-            new SetUpSpeechRecognizer().execute();
-        this.isInitialized = true;
+
+        if(active) {
+            if (this.isInitialized == false)
+                new SetUpSpeechRecognizer().execute();
+            this.isInitialized = true;
+        }
+        else
+        {
+            if(mHandler == null)
+                mHandler = new Handler();
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mCallback.onSpeechStateChanged(mContext.getString(R.string.speak_disabled));
+                }
+            }, 1000);
+        }
 
 
     }
@@ -80,6 +98,20 @@ public class SpeechRecognition implements RecognitionListener {
 
     }
 
+    public String setActive()
+    {
+        active = !active;
+        String textToDisplay;
+        if(active) {
+            initializeSpeechRecognizer();
+            textToDisplay = "";
+        }
+        else {
+            shutdownSpeechRecognition();
+            textToDisplay = mContext.getString(R.string.speak_disabled);
+        }
+        return textToDisplay;
+    }
 
     public void switchSearch(String searchName) {
         currentKeywordSearch = searchName;
@@ -137,9 +169,11 @@ public class SpeechRecognition implements RecognitionListener {
         // there is error if we quit app faster than SpeechRecognizer takes to initialize
         try {
             //if (this.isInitialized == true) {
+            if(mSpeechRecognizer != null) {
                 mSpeechRecognizer.cancel();
                 mSpeechRecognizer.shutdown();
                 this.isInitialized = false;
+            }
             //}
         }
         catch (Exception e)
@@ -155,6 +189,9 @@ public class SpeechRecognition implements RecognitionListener {
                     shutdownSpeechRecognition();
                 }
             }, 500);
+        }
+        finally {
+            Global.SpeechDebug("SpeechRecognition.shutdownSpeechRecognition(): Shutdown successfully");
         }
     }
 
@@ -175,6 +212,12 @@ public class SpeechRecognition implements RecognitionListener {
         @Override
         protected void onPostExecute(Exception result) {
             String resultText = "";
+            if(!active)
+            {
+                mCallback.onSpeechStateChanged(mContext.getString(R.string.speak_disabled));
+                shutdownSpeechRecognition();
+                return;
+            }
             if (result != null) {  // if there is exception
                 resultText = result.getMessage();
                 Global.SpeechDebug("SpeechRecognition.SetUpSpeechRecognizer.onPostExecute(): Exception: " + resultText);

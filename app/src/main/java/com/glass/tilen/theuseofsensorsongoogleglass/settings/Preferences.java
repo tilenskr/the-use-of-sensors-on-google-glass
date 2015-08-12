@@ -12,6 +12,7 @@ public class Preferences {
 
     private final static String SHARED_PREF_NAME = "sharedPref";
     private final static String STATE_TUTORIAL = "isTutorial";
+    private final static String STATE_SPEECH_RECOGNITION = "speech_recognition";
 
     private static SharedPreferences getSharedPreferences(Context context)
     {
@@ -36,6 +37,19 @@ public class Preferences {
     public static void setScreenOn(Activity activity)
     {
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }
+
+    public static boolean isSpeechRecognitionOn(Context context)
+    {
+        SharedPreferences sharedPref = getSharedPreferences(context);
+        return  sharedPref.getBoolean(STATE_SPEECH_RECOGNITION, true);
+    }
+
+    public static void setSpeechRecognition(Context context)
+    {
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putBoolean(STATE_SPEECH_RECOGNITION, !isSpeechRecognitionOn(context));
+        editor.commit();
     }
 
 }

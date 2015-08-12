@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.animations.FrequentAnimations;
-import com.glass.tilen.theuseofsensorsongoogleglass.animations.checkmark.CheckMarkView;
 import com.google.android.glass.widget.CardScrollAdapter;
 
 /**
@@ -69,7 +68,7 @@ public class SensorsCardAdapter extends CardScrollAdapter {
     {
         View tvFooter = sensorsLayout.findViewById(R.id.tvFooter);
         // we use the same duration as animation for CheckMarkView
-        FrequentAnimations.fadeIn(tvFooter, CheckMarkView.CHECK_MARK_ANIMATION_DURATION);
+        FrequentAnimations.fadeIn(tvFooter, "");
     }
     public void setTextForFooter(String textToDisplay)
     {

@@ -26,7 +26,7 @@
     <string name="sensors_overview_title">Overview of sensors</string>
     <string name="sensors_settings_title">Settings</string>
     <string name="speak_navigate">Speak to navigate</string>
-    <string name="speak_disabled">Speech recognition is disabled</string>
+    <string name="speak_disabled">Speaking is disabled</string>
     <string name="forward">forward</string>
     <string name="backward">backward</string>
     <string name="left">left</string>
@@ -36,6 +36,6 @@
     <string name="overview_version">Sensor version: %1$d</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="settings_speech_recognition_title">Speech Recognition</string>
-    <string name="message_off"><b>Off</b></string>
+    <string name="message_off">Off</string>
     <string name="message_on">On</string>
 </resources>
