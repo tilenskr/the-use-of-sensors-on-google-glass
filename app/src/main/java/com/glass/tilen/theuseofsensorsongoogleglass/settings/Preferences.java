@@ -47,8 +47,12 @@ public class Preferences {
 
     public static void setSpeechRecognition(Context context)
     {
+        setSpeechRecognitionState(context, !isSpeechRecognitionOn(context));
+    }
+    public static void setSpeechRecognitionState(Context context, boolean active)
+    {
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-        editor.putBoolean(STATE_SPEECH_RECOGNITION, !isSpeechRecognitionOn(context));
+        editor.putBoolean(STATE_SPEECH_RECOGNITION, active);
         editor.commit();
     }
 
