@@ -15,7 +15,10 @@
         <activity
             android:name=".MainActivity"
             android:icon="@mipmap/ic_launcher"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_activity_main"
+            android:launchMode="singleInstance"
+            android:exported="true"
+            >
             <intent-filter>
                 <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
                 <action android:name="android.intent.action.MAIN" />
@@ -29,23 +32,33 @@
         </activity>
         <activity
             android:name=".tutorial.TutorialActivity"
-            android:exported="false" />
-        <activity android:name=".sensors.SensorsActivity" />
+            android:exported="true" />
+        <activity android:name=".sensors.SensorsActivity"
+            android:exported="true"
+            />
         <activity
             android:name=".sensors.overview.OverviewActivity"
-            android:label="@string/title_activity_overview" >
+            android:label="@string/title_activity_overview"
+            android:exported="true"
+            >
         </activity>
         <activity
             android:name=".sensors.settings.SettingsActivity"
-            android:label="@string/title_activity_settings" >
+            android:label="@string/title_activity_settings"
+            android:exported="true"
+            >
         </activity>
         <activity
             android:name=".sensors.light.AmbientLightActivity"
-            android:label="@string/title_activity_ambient_light" >
+            android:label="@string/title_activity_ambient_light"
+            android:exported="true"
+            >
         </activity>
         <activity
             android:name=".sensors.headdetection.HeadDetectionActivity"
-            android:label="@string/title_activity_head_detection" >
+            android:label="@string/title_activity_head_detection"
+            android:exported="true"
+            >
         </activity>
     </application>
 
