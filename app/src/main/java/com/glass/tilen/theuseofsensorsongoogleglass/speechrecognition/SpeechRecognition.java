@@ -113,12 +113,18 @@ public class SpeechRecognition implements RecognitionListener {
         return textToDisplay;
     }
 
-    public void switchSearch(String searchName) {
-        currentKeywordSearch = searchName;
-        Global.SpeechDebug("SpeechRecognition.switchSearch(): searchName: " + searchName);
-        mSpeechRecognizer.stop();
-        // If we are not spotting, start listening with timeout (10000 ms or 10 seconds).
-        mSpeechRecognizer.startListening(currentKeywordSearch);
+    public void switchSearch(final String searchName) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                currentKeywordSearch = searchName;
+                Global.SpeechDebug("SpeechRecognition.switchSearch(): searchName: " + searchName);
+                mSpeechRecognizer.stop();
+                // If we are not spotting, start listening with timeout (10000 ms or 10 seconds).
+                mSpeechRecognizer.startListening(currentKeywordSearch);
+            }
+        }).start();
+
     }
 
     @Override
@@ -133,13 +139,19 @@ public class SpeechRecognition implements RecognitionListener {
     }
 
     @Override
-    public void onPartialResult(Hypothesis hypothesis) {
-        if (hypothesis != null) {
-            String text = hypothesis.getHypstr();
-            text = text.trim();
-            Global.SpeechDebug("SpeechRecognition.onPartialResult(): Speeched Text: " + text);
+    public void onPartialResult(final Hypothesis hypothesis) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (hypothesis != null) {
+                    String text = hypothesis.getHypstr();
+                    text = text.trim();
+                    Global.SpeechDebug("SpeechRecognition.onPartialResult(): Speeched Text: " + text);
+                }
+            }
+        }).start();
         }
-    }
+
 
     @Override
     public void onResult(Hypothesis hypothesis) {
