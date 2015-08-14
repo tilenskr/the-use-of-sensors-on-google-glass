@@ -6,7 +6,6 @@ import android.widget.AdapterView;
 
 import com.glass.tilen.theuseofsensorsongoogleglass.BaseActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
-import com.glass.tilen.theuseofsensorsongoogleglass.customviews.CustomCardScrollView;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Preferences;
 import com.glass.tilen.theuseofsensorsongoogleglass.speechrecognition.SpeechRecognition;
@@ -17,13 +16,13 @@ import java.util.HashMap;
 
 public class SettingsActivity extends BaseActivity  implements SpeechRecognition.SpeechRecognitionCallback, AdapterView.OnItemClickListener {
 
-    private CustomCardScrollView mCardScroller;
+    private CardScrollView mCardScroller;
     private SettingsCardAdapter mCardAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCardScroller = new CustomCardScrollView(this);
+        mCardScroller = new CardScrollView(this);
         mCardAdapter = new SettingsCardAdapter(this, getSettingsActions());
         mCardScroller.setAdapter(mCardAdapter);
         mCardScroller.setOnItemClickListener(this);

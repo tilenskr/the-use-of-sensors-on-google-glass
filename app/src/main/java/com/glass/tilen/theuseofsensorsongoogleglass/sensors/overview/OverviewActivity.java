@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import com.glass.tilen.theuseofsensorsongoogleglass.BaseActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
-import com.glass.tilen.theuseofsensorsongoogleglass.customviews.CustomCardScrollView;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.manager.MainSensorManager;
 import com.glass.tilen.theuseofsensorsongoogleglass.speechrecognition.SpeechRecognition;
 import com.google.android.glass.media.Sounds;
@@ -12,13 +11,13 @@ import com.google.android.glass.widget.CardScrollView;
 
 public class OverviewActivity extends BaseActivity implements SpeechRecognition.SpeechRecognitionCallback {
 
-    private CustomCardScrollView mCardScroller;
+    private CardScrollView mCardScroller;
     private OverviewCardAdapter mCardAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCardScroller = new CustomCardScrollView(this);
+        mCardScroller = new CardScrollView(this);
         mCardAdapter = new OverviewCardAdapter(this, MainSensorManager.getAllSensors(this));
         mCardScroller.setAdapter(mCardAdapter);
         setContentView(mCardScroller);

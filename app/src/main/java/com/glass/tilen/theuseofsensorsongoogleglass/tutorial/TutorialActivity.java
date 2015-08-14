@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.animations.FrequentAnimations;
 import com.glass.tilen.theuseofsensorsongoogleglass.animations.checkmark.CheckMarkView;
-import com.glass.tilen.theuseofsensorsongoogleglass.customviews.CustomCardScrollView;
 import com.glass.tilen.theuseofsensorsongoogleglass.gestures.TutorialGestures;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.SensorsActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
@@ -34,7 +33,7 @@ import com.google.android.glass.widget.CardScrollView;
  */
 public class TutorialActivity extends Activity implements TutorialGestures.OnGestureCallback,
         AdapterView.OnItemClickListener, SpeechRecognition.SpeechRecognitionCallback {
-    private CustomCardScrollView mCardScroller;
+    private CardScrollView mCardScroller;
     private TutorialCardAdapter mCardAdapter;
     private TutorialGestures mGestureDetector;
     private AudioManager mAudioManager;
@@ -60,7 +59,7 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
         // TODO always enable speech recognition if user go to TutorialActivity
         Global.LogDebug("TutorialActivity.onCreate()");
         startActivity = getIntent().getBooleanExtra(START_ACTIVITY, true);
-        mCardScroller = new CustomCardScrollView(this);
+        mCardScroller = new CardScrollView(this);
         mCardAdapter = new TutorialCardAdapter(this);
         mCardAdapter.insertCardWithoutAnimation(TutorialCardAdapter.TutorialCard.TAP_TOUCHPAD);
         mCardScroller.setAdapter(mCardAdapter);
