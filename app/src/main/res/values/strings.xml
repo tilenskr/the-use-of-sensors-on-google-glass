@@ -39,5 +39,7 @@
     <string name="message_off">Off</string>
     <string name="message_on">On</string>
     <string name="title_activity_ambient_light">AmbientLightActivity</string>
+    <string name="title_activity_head_detection">HeadDetectionActivity</string>
+    <string name="head_detection_instruction">This feature will work, if you have enabled on-head detection in settings</string>
 
 </resources>

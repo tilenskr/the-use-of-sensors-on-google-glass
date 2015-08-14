@@ -43,6 +43,10 @@
             android:name=".sensors.light.AmbientLightActivity"
             android:label="@string/title_activity_ambient_light" >
         </activity>
+        <activity
+            android:name=".sensors.headdetection.HeadDetectionActivity"
+            android:label="@string/title_activity_head_detection" >
+        </activity>
     </application>
 
 </manifest>
