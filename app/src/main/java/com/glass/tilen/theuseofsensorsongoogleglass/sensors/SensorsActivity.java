@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import com.glass.tilen.theuseofsensorsongoogleglass.BaseActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.customviews.CustomCardScrollView;
+import com.glass.tilen.theuseofsensorsongoogleglass.sensors.headdetection.HeadDetectionActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.light.AmbientLightActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.overview.OverviewActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.settings.SettingsActivity;
@@ -64,6 +65,7 @@ public class SensorsActivity extends BaseActivity implements AdapterView.OnItemC
                 intent = new Intent(this, AmbientLightActivity.class);
                 break;
             case HEAD_DETECTION:
+                intent = new Intent(this, HeadDetectionActivity.class);
                 break;
             case REPEAT_TUTORIAL:
                 Preferences.setSpeechRecognitionState(this, true);
