@@ -35,7 +35,8 @@ public class AmbientLightActivity extends BaseActivity implements SpeechRecognit
         mainSensorManager = MainSensorManager.getInstance(this);
         mainSensorManager.setSensor(Sensor.TYPE_LIGHT, this);
         mBitmapBrightnessTask = new BitmapBrightnessTask();
-        mSoundPlayer = new SoundPlayer(this, R.raw.zombie_death);
+        mSoundPlayer = new SoundPlayer(this);
+        mSoundPlayer.setSounds(R.raw.zombie_death);
 
     }
 
@@ -89,6 +90,6 @@ public class AmbientLightActivity extends BaseActivity implements SpeechRecognit
 
     @Override
     public void onPlaySoundEffect() {
-       mSoundPlayer.play(false);
+       mSoundPlayer.play(R.raw.zombie_death, false);
     }
 }

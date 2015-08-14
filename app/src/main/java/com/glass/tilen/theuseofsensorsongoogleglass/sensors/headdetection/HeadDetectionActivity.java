@@ -6,19 +6,27 @@ import android.widget.TextView;
 import com.glass.tilen.theuseofsensorsongoogleglass.BaseActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.animations.FrequentAnimations;
+import com.glass.tilen.theuseofsensorsongoogleglass.sensors.utils.SoundPlayer;
 import com.glass.tilen.theuseofsensorsongoogleglass.speechrecognition.SpeechRecognition;
 import com.google.android.glass.media.Sounds;
 
-public class HeadDetectionActivity extends BaseActivity implements SpeechRecognition.SpeechRecognitionCallback {
+public class HeadDetectionActivity extends BaseActivity implements SpeechRecognition.SpeechRecognitionCallback,
+        HeadDetection.HeadDetectionCallback {
 
     private TextView tvFooter;
+    private HeadDetection mHeadDetection;
+    private SoundPlayer mSoundPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_head_detection);
         mSpeechRecognition = new SpeechRecognition(this, this, SpeechRecognition.KEYWORD_NAVIGATION_ALL);
         tvFooter = (TextView) findViewById(R.id.tvFooter);
-
+        mSoundPlayer = new SoundPlayer(this);
+        mSoundPlayer.setSounds(R.raw.night_rain, R.raw.crickets);
+        mHeadDetection = new HeadDetection(this, this);
+        mHeadDetection.register();
     }
 
     @Override
@@ -29,11 +37,13 @@ public class HeadDetectionActivity extends BaseActivity implements SpeechRecogni
         tvFooter.setText("");
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHeadDetection.unregister();
+        mSoundPlayer.stop();
+    }
 
     @Override
     public void onSpeechStateChanged(String resultText) {
@@ -49,5 +59,15 @@ public class HeadDetectionActivity extends BaseActivity implements SpeechRecogni
             mAudioManager.playSoundEffect(Sounds.DISMISSED);
             finish();
         }
+    }
+
+    @Override
+    public void onHeadDetectionOn() {
+        mSoundPlayer.play(R.raw.night_rain, true);
+    }
+
+    @Override
+    public void onHeadDetectionOff() {
+        mSoundPlayer.play(R.raw.crickets, true);
     }
 }
