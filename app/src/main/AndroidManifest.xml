@@ -39,6 +39,10 @@
             android:name=".sensors.settings.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
+        <activity
+            android:name=".sensors.light.AmbientLightActivity"
+            android:label="@string/title_activity_ambient_light" >
+        </activity>
     </application>
 
 </manifest>

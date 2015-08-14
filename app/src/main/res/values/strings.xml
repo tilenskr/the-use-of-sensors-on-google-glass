@@ -38,4 +38,6 @@
     <string name="settings_speech_recognition_title">Speech Recognition</string>
     <string name="message_off">Off</string>
     <string name="message_on">On</string>
+    <string name="title_activity_ambient_light">AmbientLightActivity</string>
+
 </resources>
