@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import com.glass.tilen.theuseofsensorsongoogleglass.BaseActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.customviews.CustomCardScrollView;
+import com.glass.tilen.theuseofsensorsongoogleglass.sensors.light.AmbientLightActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.overview.OverviewActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.settings.SettingsActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
@@ -60,6 +61,7 @@ public class SensorsActivity extends BaseActivity implements AdapterView.OnItemC
             case GRAPH_SENSORS:
                 break;
             case AMBIENT_LIGHT:
+                intent = new Intent(this, AmbientLightActivity.class);
                 break;
             case HEAD_DETECTION:
                 break;
