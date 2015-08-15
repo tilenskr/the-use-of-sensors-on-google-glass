@@ -41,7 +41,7 @@ public class MainSensorManager implements SensorEventListener {
     public void setSensor(int sensorType, MainSensorManagerCallback mCallback )
     {
         mSensors = mSensorManager.getDefaultSensor(sensorType);
-        Global.SpeechDebug("MainSensorManager.setSensor(): Maximum sensor value: " + mSensors.getMaximumRange());
+        Global.SensorsDebug("MainSensorManager.setSensor(): Maximum sensor value: " + mSensors.getMaximumRange());
         this.mCallback = mCallback;
     }
 

@@ -29,10 +29,13 @@ public class SpeechRecognition implements RecognitionListener {
     private Handler mHandler = null;
     private boolean active;
 
+    private HelperQueue mHelperQueue;
+
     // singleton
     private static SpeechRecognition instance = null;
+
     public static SpeechRecognition getInstance(Context mContext) {
-        if(instance == null) {
+        if (instance == null) {
             instance = new SpeechRecognition(mContext);
         }
         return instance;
@@ -48,73 +51,101 @@ public class SpeechRecognition implements RecognitionListener {
         /**
          * This method is used when state of SpeechRecognizer changes. It is used in initialization
          * of SpeechRecognizer and for errors in SpeechRecognizer.
+         *
          * @param resultText Exception message if there is one otherwise "".
          **/
         void onSpeechStateChanged(String resultText);
+
         void onSpeechResult(String text);
     }
 
     private SpeechRecognition(Context mContext) {
         this.mContext = mContext;
         mHandler = new Handler();
+        mHelperQueue = new HelperQueue();
 
     }
 
-    public void setSpeechRecognition(SpeechRecognitionCallback mCallback, boolean active)
-    {
+    public void setSpeechRecognition(SpeechRecognitionCallback mCallback, boolean active) {
         this.mCallback = mCallback;
         this.active = active;
     }
-    
+
     public void startSpeechRecognition(final String keywordSearch) {
         // try and catch - not nice, but maybe will catch some bugs
-        try {
-            mHandler.removeCallbacksAndMessages(null);
-            this.currentKeywordSearch = keywordSearch;
-            if (mSpeechRecognizer == null)
-                initializeSpeechRecognizer();
-            else {
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        switchSearch(keywordSearch);
-                        if (mCallback != null)
-                            mCallback.onSpeechStateChanged("");
+        mHandler.removeCallbacksAndMessages(null);
+        Runnable run = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    currentKeywordSearch = keywordSearch;
+                    if (mSpeechRecognizer == null) {
+                        mHandler.post(initializeSpeechRecognizer());
+                    } else {
+                        executePendingAction();
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                switchSearch(keywordSearch);
+                                if (mCallback != null)
+                                    mCallback.onSpeechStateChanged("");
+                            }
+                        }, 1000);
                     }
-                }, 1000);
+                } catch (Exception e) {
+                    Global.ErrorDebug("SpeechRecogition.startSpeechRecognition(): Exception: " + e);
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            startSpeechRecognition(keywordSearch);
+                        }
+                    }, 1000);
+                }
             }
-        }
-        catch(Exception e)
-        {
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startSpeechRecognition(keywordSearch);
-                }
-            }, 1000);
-        }
+        };
+        Runnable runnable = mHelperQueue.addRunnable(run, HelperQueue.INITIALIZE);
+        Global.TestDebug("SpeechRecognition.startSpeechRecognition(): runnable" +
+                runnable +  ", id: " + HelperQueue.INITIALIZE);
+        if (runnable != null)
+            mHandler.post(runnable);
     }
 
-    private void initializeSpeechRecognizer()
-    {
-        if(active) {
-            if (this.isInitialized == false)
-                new SetUpSpeechRecognizer().execute();
-            this.isInitialized = true;
-        }
-        else
-        {
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(mCallback != null)
-                        mCallback.onSpeechStateChanged(mContext.getString(R.string.speak_disabled));
+
+    private Runnable initializeSpeechRecognizer() {
+        mHandler.removeCallbacksAndMessages(null);
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (active) {
+                    if (isInitialized == false)
+                        new SetUpSpeechRecognizer().execute();
+                    else {
+                        executePendingAction();
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (mCallback != null)
+                                    mCallback.onSpeechStateChanged("");
+                            }
+                        }, 1000);
+
+                    }
+                    isInitialized = true;
+                } else {
+                    executePendingAction();
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mCallback != null)
+                                mCallback.onSpeechStateChanged(mContext.getString(R.string.speak_disabled));
+                        }
+                    }, 1000);
                 }
-            }, 1000);
-        }
-
-
+            }
+        };
+        return runnable;
     }
+
     private void setupRecognizer(File assetsDir) throws IOException {
         // The recognizer can be configured to perform multiple searches
         // of different kind and switch between them
@@ -127,22 +158,24 @@ public class SpeechRecognition implements RecognitionListener {
         mSpeechRecognizer.addListener(this);
         File searchFile;
         String nameOfFile;
-            nameOfFile = KEYWORD_NAVIGATION_ALL + ".gram"; //my convention (name + ".gram")
-            searchFile = new File(assetsDir, nameOfFile);
-            mSpeechRecognizer.addKeywordSearch(KEYWORD_NAVIGATION_ALL, searchFile);
+        nameOfFile = KEYWORD_NAVIGATION_ALL + ".gram"; //my convention (name + ".gram")
+        searchFile = new File(assetsDir, nameOfFile);
+        mSpeechRecognizer.addKeywordSearch(KEYWORD_NAVIGATION_ALL, searchFile);
 
 
     }
 
-    public String setActive()
-    {
+    public String setActive() {
         active = !active;
         String textToDisplay;
-        if(active) {
-            initializeSpeechRecognizer();
+        if (active) {
+            Runnable runnable = mHelperQueue.addRunnable(initializeSpeechRecognizer(), HelperQueue.INITIALIZE);
+            Global.TestDebug("SpeechRecognition.setActive(): runnable" +
+                    runnable +  ", id: " + HelperQueue.INITIALIZE);
+            if (runnable != null)
+                mHandler.post(runnable);
             textToDisplay = "";
-        }
-        else {
+        } else {
             shutdownSpeechRecognition();
             textToDisplay = mContext.getString(R.string.speak_disabled);
         }
@@ -151,16 +184,16 @@ public class SpeechRecognition implements RecognitionListener {
 
     public void switchSearch(final String searchName) {
         //TODO set thread on, off for debugging purposes
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                currentKeywordSearch = searchName;
-                Global.SpeechDebug("SpeechRecognition.switchSearch(): searchName: " + searchName);
-                mSpeechRecognizer.stop();
-                // If we are not spotting, start listening with timeout (10000 ms or 10 seconds).
-                mSpeechRecognizer.startListening(currentKeywordSearch);
-            }
-        }).start();
+        //new Thread(new Runnable() {
+        //  @Override
+        // public void run() {
+        currentKeywordSearch = searchName;
+        Global.SpeechDebug("SpeechRecognition.switchSearch(): searchName: " + searchName);
+        mSpeechRecognizer.stop();
+        // If we are not spotting, start listening with timeout (10000 ms or 10 seconds).
+        mSpeechRecognizer.startListening(currentKeywordSearch);
+        //  }
+        //}).start();
 
     }
 
@@ -187,7 +220,7 @@ public class SpeechRecognition implements RecognitionListener {
                 }
             }
         }).start();
-        }
+    }
 
 
     @Override
@@ -196,7 +229,7 @@ public class SpeechRecognition implements RecognitionListener {
             String text = hypothesis.getHypstr();
             text = text.trim();
             Global.SpeechDebug("SpeechRecognition.onResult(): Speeched Text: " + text);
-            if(mCallback != null)
+            if (mCallback != null)
                 mCallback.onSpeechResult(text);
         }
     }
@@ -205,7 +238,7 @@ public class SpeechRecognition implements RecognitionListener {
     public void onError(Exception e) {
         String exceptionMessage = e.getMessage();
         Global.SpeechDebug("SpeechRecognition.onError(): Exception: " + exceptionMessage);
-        if(mCallback != null)
+        if (mCallback != null)
             mCallback.onSpeechStateChanged(exceptionMessage);
     }
 
@@ -215,50 +248,61 @@ public class SpeechRecognition implements RecognitionListener {
         switchSearch(currentKeywordSearch);
     }
 
-
-    public void shutdownSpeechRecognition()
+    public void cancelCallback()
     {
         mCallback = null;
+    }
+
+
+    public void shutdownSpeechRecognition() {
         // wait for 5 second, if user really quit app or just went to another activity
         mHandler.postDelayed(
                 new Runnable() {
                     @Override
                     public void run() {
-                        // there is error if we quit app faster than SpeechRecognizer takes to initialize
-                        try {
-                            //if (this.isInitialized == true) {
-                            if(mSpeechRecognizer != null) {
-                                mSpeechRecognizer.cancel();
-                                mSpeechRecognizer.shutdown();
-                                mSpeechRecognizer = null;
-                                isInitialized = false;
-                            }
-                            //}
-                        }
-                        catch (Exception e)
-                        {
-                            Global.ErrorDebug("SpeechRecognition.shutdownSpeechRecognition(): Exception: " + e.getMessage());
-                            // if we quit app faster than it takes SpeechRecognizer to initialize,
-                            // there would be error on initialization, so we use Handler
-                            mHandler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    shutdownSpeechRecognition();
+                        Runnable run = new Runnable() {
+                            @Override
+                            public void run() {
+                                // there is error if we quit app faster than SpeechRecognizer takes to initialize
+                                try {
+                                    //if (this.isInitialized == true) {
+                                    if (mSpeechRecognizer != null) {
+                                        mSpeechRecognizer.cancel();
+                                        mSpeechRecognizer.shutdown();
+                                        mSpeechRecognizer = null;
+                                        isInitialized = false;
+                                    }
+                                    //}
+                                } catch (Exception e) {
+                                    Global.ErrorDebug("SpeechRecognition.shutdownSpeechRecognition(): Exception: " + e.getMessage());
+                                    // if we quit app faster than it takes SpeechRecognizer to initialize,
+                                    // there would be error on initialization, so we use Handler
+                                    mHandler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            executePendingAction();
+                                            shutdownSpeechRecognition();
+                                        }
+                                    }, 500);
+                                } finally {
+                                    Global.SpeechDebug("SpeechRecognition.shutdownSpeechRecognition(): Shutdown successfully");
+                                    executePendingAction();
                                 }
-                            }, 500);
-                        }
-                        finally {
-                            Global.SpeechDebug("SpeechRecognition.shutdownSpeechRecognition(): Shutdown successfully");
-                        }
+                            }
+                        };
+                        Runnable mRunnable = mHelperQueue.addRunnable(run, HelperQueue.SHUTDOWN);
+                        Global.TestDebug("SpeechRecognition.shutdownSpeechRecognition(): runnable" +
+                                mRunnable +  ", id: " + HelperQueue.SHUTDOWN);
+                        if (mRunnable != null)
+                            mHandler.post(mRunnable);
                     }
                 }, 5000);
-
-
     }
 
     private class SetUpSpeechRecognizer extends AsyncTask<Void, Void, Exception> {
         @Override
         protected Exception doInBackground(Void... params) {
+            Global.SpeechDebug("SpeechRecognition.doInBackground()");
             try {
                 Assets assets = new Assets(mContext);
                 File assetDir = assets.syncAssets();
@@ -272,29 +316,39 @@ public class SpeechRecognition implements RecognitionListener {
 
         @Override
         protected void onPostExecute(Exception result) {
+            Global.SpeechDebug("SpeechRecognition.onPostExecute(): active: " +active + ", result: " + result
+                    + ", Callback: " + mCallback);
             String resultText = "";
-            if(!active)
-            {
-                    if(mCallback!= null)
-                mCallback.onSpeechStateChanged(mContext.getString(R.string.speak_disabled));
+            if (!active) {
+                if (mCallback != null)
+                    mCallback.onSpeechStateChanged(mContext.getString(R.string.speak_disabled));
+                executePendingAction();
                 shutdownSpeechRecognition();
                 return;
             }
             if (result != null) {  // if there is exception
                 resultText = result.getMessage();
                 Global.SpeechDebug("SpeechRecognition.SetUpSpeechRecognizer.onPostExecute(): Exception: " + resultText);
-                if(mCallback != null)
+                if (mCallback != null)
                     mCallback.onSpeechStateChanged(resultText);
                 else
                     shutdownSpeechRecognition();
             } else {
-                Global.SpeechDebug("SpeechRecognition.SetUpSpeechRecognizer.onPostExecute(): Successful initialization");
-                if(mCallback != null)
+                if (mCallback != null)
                     mCallback.onSpeechStateChanged(resultText);
                 else
                     shutdownSpeechRecognition();
                 switchSearch(currentKeywordSearch);
             }
+            executePendingAction();
         }
+    }
+
+    private void executePendingAction() {
+        Runnable runnable = mHelperQueue.poll();
+        Global.TestDebug("SpeechRecognition.executePendingAction(): runnable: " +
+                runnable);
+        if (runnable != null)
+            mHandler.post(runnable);
     }
 }

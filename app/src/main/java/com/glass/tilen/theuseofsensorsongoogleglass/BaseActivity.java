@@ -34,6 +34,7 @@ public abstract class BaseActivity extends Activity implements SpeechRecognition
     @Override
     protected void onPause() {
         super.onPause();
+        mSpeechRecognition.cancelCallback();
         mSpeechRecognition.shutdownSpeechRecognition();
     }
 }
