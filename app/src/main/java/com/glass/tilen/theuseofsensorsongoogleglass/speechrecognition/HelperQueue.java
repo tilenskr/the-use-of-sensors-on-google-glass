@@ -58,15 +58,5 @@ public class HelperQueue {
             queue.add(new QueueItem(runnable, itemId));
         }
         return null;
-
-        /*
-        if(itemId == INITIALIZE)
-        {
-
-        }
-        else if (itemId == SHUTDOWN)
-        {
-
-        }*/
     }
 }
