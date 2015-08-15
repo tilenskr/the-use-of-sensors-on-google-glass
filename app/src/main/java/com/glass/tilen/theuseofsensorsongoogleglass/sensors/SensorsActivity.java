@@ -33,12 +33,12 @@ public class SensorsActivity extends BaseActivity implements AdapterView.OnItemC
         mCardScroller.setAdapter(mCardAdapter);
         setContentView(mCardScroller);
         mCardScroller.setOnItemClickListener(this);
-        mSpeechRecognition = new SpeechRecognition(this, this, SpeechRecognition.KEYWORD_NAVIGATION_ALL);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        mSpeechRecognition.startSpeechRecognition(SpeechRecognition.KEYWORD_NAVIGATION_ALL);
         mCardScroller.activate();
         // to go to pause and change state of SpeechRecognizer will happen rarely, so we will not
         // handle setting footer TextView to "". Maybe later. //TODO check if this will slow program and make glass hotter

@@ -11,7 +11,7 @@ import com.glass.tilen.theuseofsensorsongoogleglass.speechrecognition.SpeechReco
 /**
  * Created by Tilen on 9.8.2015.
  */
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends Activity implements SpeechRecognition.SpeechRecognitionCallback{
     protected SpeechRecognition mSpeechRecognition;
     protected AudioManager mAudioManager;
 
@@ -21,13 +21,14 @@ public abstract class BaseActivity extends Activity {
         super.onCreate(savedInstanceState);
         Preferences.setScreenOn(this);
         mAudioManager = Global.getAudioManager(this);
+        mSpeechRecognition = SpeechRecognition.getInstance(this);
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mSpeechRecognition.initializeSpeechRecognizer();
+        mSpeechRecognition.setSpeechRecognition(this, Preferences.isSpeechRecognitionOn(this));
     }
 
     @Override
@@ -35,5 +36,4 @@ public abstract class BaseActivity extends Activity {
         super.onPause();
         mSpeechRecognition.shutdownSpeechRecognition();
     }
-
 }

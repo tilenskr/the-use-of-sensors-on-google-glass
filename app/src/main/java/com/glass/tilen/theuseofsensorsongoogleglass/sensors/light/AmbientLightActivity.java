@@ -29,7 +29,6 @@ public class AmbientLightActivity extends BaseActivity implements SpeechRecognit
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ambient_light_layout);
-        mSpeechRecognition = new SpeechRecognition(this, this, SpeechRecognition.KEYWORD_NAVIGATION_ALL);
         ivPicture = (ImageView) findViewById(R.id.ivPicture);
         tvFooter = (TextView) findViewById(R.id.tvFooter);
         mainSensorManager = MainSensorManager.getInstance(this);
@@ -43,6 +42,8 @@ public class AmbientLightActivity extends BaseActivity implements SpeechRecognit
     @Override
     protected void onResume() {
         super.onResume();
+        mSpeechRecognition.startSpeechRecognition(SpeechRecognition.KEYWORD_NAVIGATION_ALL);
+
         // to go to pause and change state of SpeechRecognizer will happen rarely, so we will not
         // handle setting footer TextView to "". Maybe later. //TODO check if this will slow program and make glass hotter
         tvFooter.setText("");
