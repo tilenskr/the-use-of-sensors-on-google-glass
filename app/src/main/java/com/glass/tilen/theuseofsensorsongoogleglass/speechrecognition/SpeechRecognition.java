@@ -74,11 +74,11 @@ public class SpeechRecognition implements RecognitionListener {
     public void startSpeechRecognition(final String keywordSearch) {
         // try and catch - not nice, but maybe will catch some bugs
         mHandler.removeCallbacksAndMessages(null);
+        currentKeywordSearch = keywordSearch;
         Runnable run = new Runnable() {
             @Override
             public void run() {
                 try {
-                    currentKeywordSearch = keywordSearch;
                     if (mSpeechRecognizer == null) {
                         mHandler.post(initializeSpeechRecognizer());
                     } else {
@@ -94,6 +94,7 @@ public class SpeechRecognition implements RecognitionListener {
                     }
                 } catch (Exception e) {
                     Global.ErrorDebug("SpeechRecogition.startSpeechRecognition(): Exception: " + e);
+                    executePendingAction();
                     mHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -277,10 +278,10 @@ public class SpeechRecognition implements RecognitionListener {
                                     Global.ErrorDebug("SpeechRecognition.shutdownSpeechRecognition(): Exception: " + e.getMessage());
                                     // if we quit app faster than it takes SpeechRecognizer to initialize,
                                     // there would be error on initialization, so we use Handler
+                                    executePendingAction();
                                     mHandler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
-                                            executePendingAction();
                                             shutdownSpeechRecognition();
                                         }
                                     }, 500);
@@ -334,11 +335,12 @@ public class SpeechRecognition implements RecognitionListener {
                 else
                     shutdownSpeechRecognition();
             } else {
-                if (mCallback != null)
+                if (mCallback != null) {
                     mCallback.onSpeechStateChanged(resultText);
+                    switchSearch(currentKeywordSearch);
+                }
                 else
                     shutdownSpeechRecognition();
-                switchSearch(currentKeywordSearch);
             }
             executePendingAction();
         }
