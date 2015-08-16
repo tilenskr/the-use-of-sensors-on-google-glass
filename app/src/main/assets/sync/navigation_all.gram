@@ -1,4 +1,4 @@
 forward /1e-14/
-backward /1e-13/
-left /1e-11/
-right /1e-8/
+backward /1e-15/
+left /1e-9/
+right /1e-7/
