@@ -1,4 +1,4 @@
-package com.glass.tilen.theuseofsensorsongoogleglass;
+package com.glass.tilen.theuseofsensorsongoogleglass.inheritance.activity;
 
 import android.app.Activity;
 import android.media.AudioManager;

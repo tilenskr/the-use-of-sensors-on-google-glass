@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.glass.tilen.theuseofsensorsongoogleglass.BaseActivity;
+import com.glass.tilen.theuseofsensorsongoogleglass.inheritance.activity.BaseActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Preferences;

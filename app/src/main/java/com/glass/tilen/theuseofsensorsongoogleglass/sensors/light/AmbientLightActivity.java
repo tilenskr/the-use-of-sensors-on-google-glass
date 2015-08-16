@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.glass.tilen.theuseofsensorsongoogleglass.BaseActivity;
+import com.glass.tilen.theuseofsensorsongoogleglass.inheritance.activity.BaseActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.animations.FrequentAnimations;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.manager.MainSensorManager;

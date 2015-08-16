@@ -2,7 +2,7 @@ package com.glass.tilen.theuseofsensorsongoogleglass.sensors.overview;
 
 import android.os.Bundle;
 
-import com.glass.tilen.theuseofsensorsongoogleglass.BaseActivity;
+import com.glass.tilen.theuseofsensorsongoogleglass.inheritance.activity.BaseActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.manager.MainSensorManager;
 import com.glass.tilen.theuseofsensorsongoogleglass.speechrecognition.SpeechRecognition;

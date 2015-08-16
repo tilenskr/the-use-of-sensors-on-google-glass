@@ -3,7 +3,7 @@ package com.glass.tilen.theuseofsensorsongoogleglass.sensors.headdetection;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.glass.tilen.theuseofsensorsongoogleglass.BaseActivity;
+import com.glass.tilen.theuseofsensorsongoogleglass.inheritance.activity.BaseActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.animations.FrequentAnimations;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.utils.SoundPlayer;
