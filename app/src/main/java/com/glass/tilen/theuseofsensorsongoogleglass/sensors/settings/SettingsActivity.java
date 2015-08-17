@@ -14,7 +14,7 @@ import com.google.android.glass.widget.CardScrollView;
 
 import java.util.HashMap;
 
-public class SettingsActivity extends BaseActivity  implements SpeechRecognition.SpeechRecognitionCallback, AdapterView.OnItemClickListener {
+public class SettingsActivity extends BaseActivity implements SpeechRecognition.SpeechRecognitionCallback, AdapterView.OnItemClickListener {
 
     private CardScrollView mCardScroller;
     private SettingsCardAdapter mCardAdapter;

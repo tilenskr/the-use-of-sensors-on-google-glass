@@ -173,8 +173,6 @@ public class SpeechRecognition implements RecognitionListener {
         nameOfFile = KEYWORD_NAVIGATION_LEFT_RIGHT_BACK + ".gram"; //my convention (name + ".gram")
         searchFile = new File(assetsDir, nameOfFile);
         mSpeechRecognizer.addKeywordSearch(KEYWORD_NAVIGATION_LEFT_RIGHT_BACK, searchFile);
-
-
     }
 
     public String setActive() {
