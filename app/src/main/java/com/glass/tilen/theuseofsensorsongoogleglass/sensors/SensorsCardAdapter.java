@@ -1,7 +1,6 @@
 package com.glass.tilen.theuseofsensorsongoogleglass.sensors;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -9,15 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
-import com.glass.tilen.theuseofsensorsongoogleglass.animations.FrequentAnimations;
-import com.google.android.glass.widget.CardScrollAdapter;
+import com.glass.tilen.theuseofsensorsongoogleglass.inheritance.cardadapter.BaseCardAdapter;
 
 /**
  * Created by Tilen on 9.8.2015.
  */
-public class SensorsCardAdapter extends CardScrollAdapter {
-    private Context mContext;
-    private String textForFooter;
+public class SensorsCardAdapter extends BaseCardAdapter {
 
     public SensorsCardAdapter(Context mContext) {
         this.mContext = mContext;
@@ -36,8 +32,7 @@ public class SensorsCardAdapter extends CardScrollAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View sensorsLayout = layoutInflater.inflate(R.layout.sensors_layout, null);
+        View sensorsLayout = createBaseView(R.layout.sensors_layout);
         populateView(sensorsLayout, position);
         return sensorsLayout;
     }
@@ -49,10 +44,8 @@ public class SensorsCardAdapter extends CardScrollAdapter {
         ImageView ivPicture = (ImageView) sensorLayout.findViewById(R.id.ivRightPicture);
         tvTitle.setText(mSensorsCard.titleId);
         ivPicture.setImageResource(mSensorsCard.imageId);
-        if(textForFooter != "") {
-            TextView tvFooter = (TextView) sensorLayout.findViewById(R.id.tvFooter);
-            tvFooter.setText(textForFooter);
-        }
+        setTextForFooterView(sensorLayout);
+
     }
     @Override
     public int getPosition(Object o) {
@@ -62,23 +55,6 @@ public class SensorsCardAdapter extends CardScrollAdapter {
             }
         }
         return AdapterView.INVALID_POSITION;
-    }
-
-    public void  setAnimationForFooterTextView(View sensorsLayout)
-    {
-        View tvFooter = sensorsLayout.findViewById(R.id.tvFooter);
-        // we use the same duration as animation for CheckMarkView
-        FrequentAnimations.fadeIn(tvFooter, "");
-    }
-    public void setTextForFooter(String textToDisplay)
-    {
-        this.textForFooter = textToDisplay;
-    }
-
-    public void setTextForView(View sensorsLayout)
-    {
-        TextView tvFooter = (TextView) sensorsLayout.findViewById(R.id.tvFooter);
-        tvFooter.setText(textForFooter);
     }
 
     public enum SensorsCard
