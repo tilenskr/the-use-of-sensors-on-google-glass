@@ -40,7 +40,7 @@ public class AmbientLightActivity extends SingleLayoutActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        mSpeechRecognition.startSpeechRecognition(SpeechRecognition.KEYWORD_NAVIGATION_ALL);
+        mSpeechRecognition.startSpeechRecognition(SpeechRecognition.KEYWORD_NAVIGATION_BACK);
         mainSensorManager.registerSensor();
     }
 

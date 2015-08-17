@@ -46,6 +46,9 @@ public class SpeechRecognition implements RecognitionListener {
      * keyword constants for mSpeechRecognizer
      **/
     public static final String KEYWORD_NAVIGATION_ALL = "navigation_all";
+    public static final String KEYWORD_NAVIGATION_BACK = "navigation_back";
+    public static final String KEYWORD_NAVIGATION_LEFT_RIGHT_BACK = "navigation_left_right_back";
+
 
     public interface SpeechRecognitionCallback {
         /**
@@ -162,6 +165,14 @@ public class SpeechRecognition implements RecognitionListener {
         nameOfFile = KEYWORD_NAVIGATION_ALL + ".gram"; //my convention (name + ".gram")
         searchFile = new File(assetsDir, nameOfFile);
         mSpeechRecognizer.addKeywordSearch(KEYWORD_NAVIGATION_ALL, searchFile);
+
+        nameOfFile = KEYWORD_NAVIGATION_BACK + ".gram"; //my convention (name + ".gram")
+        searchFile = new File(assetsDir, nameOfFile);
+        mSpeechRecognizer.addKeywordSearch(KEYWORD_NAVIGATION_BACK, searchFile);
+
+        nameOfFile = KEYWORD_NAVIGATION_LEFT_RIGHT_BACK + ".gram"; //my convention (name + ".gram")
+        searchFile = new File(assetsDir, nameOfFile);
+        mSpeechRecognizer.addKeywordSearch(KEYWORD_NAVIGATION_LEFT_RIGHT_BACK, searchFile);
 
 
     }

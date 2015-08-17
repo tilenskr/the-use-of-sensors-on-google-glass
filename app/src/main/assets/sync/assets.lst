@@ -8,5 +8,7 @@ en-us-ptm/sendump
 en-us-ptm/transition_matrices
 en-us-ptm/variances
 navigation_all.gram
+navigation_back.gram
+navigation_left_right_back.gram
 tutorial_left_right.gram
 tutorial_up_down.gram
