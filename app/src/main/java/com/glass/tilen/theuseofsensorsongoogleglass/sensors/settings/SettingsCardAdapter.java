@@ -2,7 +2,6 @@ package com.glass.tilen.theuseofsensorsongoogleglass.sensors.settings;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -11,22 +10,26 @@ import android.widget.TextView;
 
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.animations.FrequentAnimations;
-import com.google.android.glass.widget.CardScrollAdapter;
+import com.glass.tilen.theuseofsensorsongoogleglass.inheritance.cardadapter.BaseCardAdapter;
 
 import java.util.HashMap;
 
 /**
  * Created by Tilen on 12.8.2015.
  */
-public class SettingsCardAdapter extends CardScrollAdapter {
-    private Context mContext;
-    private String textForFooter;
+public class SettingsCardAdapter extends BaseCardAdapter implements SettingsCardAdapterCommunicator {
     private HashMap<SettingsCard, Boolean> actions;
 
     public SettingsCardAdapter(Context mContext, HashMap<SettingsCard, Boolean> actions) {
         this.mContext = mContext;
         this.textForFooter = "";
         this.actions = actions;
+    }
+
+    @Override
+    public SettingsCardAdapterCommunicator getCommunicator()
+    {
+        return this;
     }
 
     @Override
@@ -41,8 +44,7 @@ public class SettingsCardAdapter extends CardScrollAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View settingsLayout = layoutInflater.inflate(R.layout.settings_layout, null);
+        View settingsLayout = createBaseView(R.layout.settings_layout);
         populateView(settingsLayout, position);
         return settingsLayout;
     }
@@ -58,11 +60,9 @@ public class SettingsCardAdapter extends CardScrollAdapter {
         tvAction.setText(getActionTextId(mSettingsCard));
         tvAction.setTypeface(null, Typeface.BOLD); // it works :)
         ivPicture.setImageResource(mSettingsCard.imageId);
-        if(textForFooter != "") {
-            TextView tvFooter = (TextView) settingsLayout.findViewById(R.id.tvFooter);
-            tvFooter.setText(textForFooter);
-        }
+        setTextForFooterView(settingsLayout);
     }
+
     @Override
     public int getPosition(Object o) {
         for (int i = 0; i <  SettingsCard.values().length; i++) {
@@ -73,29 +73,12 @@ public class SettingsCardAdapter extends CardScrollAdapter {
         return AdapterView.INVALID_POSITION;
     }
 
-    public void  setAnimationForFooterTextView(View sensorsLayout, String text)
-    {
-        View tvFooter = sensorsLayout.findViewById(R.id.tvFooter);
-        // we use the same duration as animation for CheckMarkView
-        FrequentAnimations.fadeIn(tvFooter, text);
-    }
-
+    @Override
     public void setFadeOutFadeInAnimationForFooterTextView(View sensorsLayout, String text)
     {
         View tvFooter = sensorsLayout.findViewById(R.id.tvFooter);
         // we use the same duration as animation for CheckMarkView
         FrequentAnimations.fadeOutFadeIn(tvFooter, text);
-    }
-
-    public void setTextForFooter(String textToDisplay)
-    {
-        this.textForFooter = textToDisplay;
-    }
-
-    public void setTextForView(View sensorsLayout)
-    {
-        TextView tvFooter = (TextView) sensorsLayout.findViewById(R.id.tvFooter);
-        tvFooter.setText(textForFooter);
     }
 
     private int getActionTextId(SettingsCard mSettingsCard)
@@ -109,6 +92,7 @@ public class SettingsCardAdapter extends CardScrollAdapter {
         return text;
     }
 
+    @Override
     public void changeActionText(SettingsCard mSettingsCard, View view)
     {
         boolean actionValue = !actions.get(mSettingsCard);

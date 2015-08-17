@@ -23,6 +23,8 @@ public abstract class BaseMultiLayoutActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         mCardScroller.activate();
+        // to go to pause and change state of SpeechRecognizer will happen rarely, so we will not
+        // handle setting footer TextView to "". Maybe later. //TODO check if this will slow program and make glass hotter
         mCardAdapter.setTextForFooter("");
     }
 
@@ -40,7 +42,7 @@ public abstract class BaseMultiLayoutActivity extends BaseActivity {
         setTextForFooter(resultText, mCardScroller.getSelectedItemPosition());
     }
 
-    private void setTextForFooter(String resultText, int position)
+    protected void setTextForFooter(String resultText, int position)
     {
         mCardAdapter.setTextForFooter(resultText);
         for(int i = 0; i < mCardScroller.getChildCount();i++)

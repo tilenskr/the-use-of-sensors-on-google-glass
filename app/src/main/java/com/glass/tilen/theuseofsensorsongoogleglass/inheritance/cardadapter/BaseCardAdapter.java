@@ -7,14 +7,17 @@ import android.widget.TextView;
 
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.animations.FrequentAnimations;
+import com.glass.tilen.theuseofsensorsongoogleglass.inheritance.cardadapter.interface_.BaseCardCommunicator;
 import com.google.android.glass.widget.CardScrollAdapter;
 
 /**
  * Created by Tilen on 17.8.2015.
  */
-public abstract class BaseCardAdapter extends CardScrollAdapter {
+public abstract class BaseCardAdapter extends CardScrollAdapter implements BaseCardCommunicator {
     protected String textForFooter;
     protected Context mContext;
+
+    public abstract BaseCardCommunicator getCommunicator();
 
     protected View createBaseView(int layoutId)
     {
@@ -40,7 +43,4 @@ public abstract class BaseCardAdapter extends CardScrollAdapter {
         // we use the same duration as animation for CheckMarkView
         FrequentAnimations.fadeIn(tvFooter, text);
     }
-
-
-
 }
