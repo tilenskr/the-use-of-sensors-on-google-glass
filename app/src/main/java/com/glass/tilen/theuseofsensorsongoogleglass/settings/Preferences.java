@@ -42,7 +42,7 @@ public class Preferences {
     public static boolean isSpeechRecognitionOn(Context context)
     {
         SharedPreferences sharedPref = getSharedPreferences(context);
-        return  sharedPref.getBoolean(STATE_SPEECH_RECOGNITION, true);
+        return sharedPref.getBoolean(STATE_SPEECH_RECOGNITION, true);
     }
 
     public static void setSpeechRecognition(Context context)

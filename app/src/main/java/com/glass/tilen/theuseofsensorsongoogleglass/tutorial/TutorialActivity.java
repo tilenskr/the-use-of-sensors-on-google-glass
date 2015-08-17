@@ -36,7 +36,6 @@ public class TutorialActivity extends BaseMultiLayoutActivity implements Tutoria
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        // TODO always enable speech recognition if user go to TutorialActivity
         Global.LogDebug("TutorialActivity.onCreate()");
         startActivity = getIntent().getBooleanExtra(START_ACTIVITY, true);
         mCardAdapter = new TutorialCardAdapter(this);
@@ -105,7 +104,7 @@ public class TutorialActivity extends BaseMultiLayoutActivity implements Tutoria
         }
         switch (mTutorialCard) {
             case SWIPING:
-                returnValue = checkForCorrectGesture(mTutorialCard,  TutorialCardAdapter.TutorialCard.SAYLEFTRIGHT, gesture, Gesture.SWIPE_LEFT, Gesture.SWIPE_RIGHT); //TODO set proper card
+                returnValue = checkForCorrectGesture(mTutorialCard, TutorialCardAdapter.TutorialCard.SAYLEFTRIGHT, gesture, Gesture.SWIPE_LEFT, Gesture.SWIPE_RIGHT);
                 mSpeechRecognition.switchSearch(SpeechRecognition.KEYWORD_HORIZONTAL);
                 break;
             case SWIPEDOWN:
