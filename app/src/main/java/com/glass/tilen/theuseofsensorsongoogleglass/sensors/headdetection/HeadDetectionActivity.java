@@ -17,7 +17,7 @@ public class HeadDetectionActivity extends SingleLayoutActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_head_detection);
+        setContentView(R.layout.head_detection_layout);
         tvFooter = (TextView) findViewById(R.id.tvFooter);
         mSoundPlayer = new SoundPlayer(this);
         mSoundPlayer.setSounds(R.raw.night_rain, R.raw.crickets);
