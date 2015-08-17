@@ -1,8 +1,6 @@
 package com.glass.tilen.theuseofsensorsongoogleglass.tutorial;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -10,9 +8,9 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
-import com.glass.tilen.theuseofsensorsongoogleglass.animations.FrequentAnimations;
 import com.glass.tilen.theuseofsensorsongoogleglass.animations.checkmark.CheckMarkView;
 import com.glass.tilen.theuseofsensorsongoogleglass.gestures.TutorialGestures;
+import com.glass.tilen.theuseofsensorsongoogleglass.inheritance.activity.BaseMultiLayoutActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.SensorsActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Preferences;
@@ -21,30 +19,12 @@ import com.google.android.glass.media.Sounds;
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.widget.CardScrollView;
 
-/**
- * An {@link Activity} showing a tuggable "Hello World!" card.
- * <p/>
- * The main content view is composed of a one-card {@link CardScrollView} that provides tugging
- * feedback to the user when swipe gestures are detected.
- * If your Glassware intends to intercept swipe gestures, you should set the content view directly
- * and use a {@link com.google.android.glass.touchpad.GestureDetector}.
- *
- * @see <a href="https://developers.google.com/glass/develop/gdk/touch">GDK Developer Guide</a>
- */
-public class TutorialActivity extends Activity implements TutorialGestures.OnGestureCallback,
-        AdapterView.OnItemClickListener, SpeechRecognition.SpeechRecognitionCallback {
-    private CardScrollView mCardScroller;
-    private TutorialCardAdapter mCardAdapter;
-    private TutorialGestures mGestureDetector;
-    private AudioManager mAudioManager;
-    private Handler mHandler;
-    private SpeechRecognition mSpeechRecognition;
+public class TutorialActivity extends BaseMultiLayoutActivity implements TutorialGestures.OnGestureCallback,
+        AdapterView.OnItemClickListener {
 
-    /**
-     * keyword constants for SpeechRecognition
-     **/
-    private final static String KEYWORD_VERTICAL = "tutorial_up_down";
-    private final static String KEYWORD_HORIZONTAL = "tutorial_left_right";
+    private TutorialCardAdapterCommunicator mCommunicator;
+    private TutorialGestures mGestureDetector;
+    private Handler mHandler;
 
     // constants from bundle
     /**
@@ -59,37 +39,22 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
         // TODO always enable speech recognition if user go to TutorialActivity
         Global.LogDebug("TutorialActivity.onCreate()");
         startActivity = getIntent().getBooleanExtra(START_ACTIVITY, true);
-        mCardScroller = new CardScrollView(this);
         mCardAdapter = new TutorialCardAdapter(this);
-        mCardAdapter.insertCardWithoutAnimation(TutorialCardAdapter.TutorialCard.TAP_TOUCHPAD);
+        mCommunicator = (TutorialCardAdapterCommunicator) mCardAdapter.getCommunicator();
+        mCommunicator.insertCardWithoutAnimation(TutorialCardAdapter.TutorialCard.TAP_TOUCHPAD);
         mCardScroller.setAdapter(mCardAdapter);
-        initializeEnums();
+        TutorialCardAdapter.TutorialCard.initializeEnums();
         setContentView(mCardScroller);
-        Preferences.setScreenOn(this);
-        mAudioManager = Global.getAudioManager(this);
         mCardScroller.setOnItemClickListener(this);
         mGestureDetector = new TutorialGestures(this, this);
         mHandler = new Handler();
-        //mSpeechRecognition = new SpeechRecognition(this, this, KEYWORD_VERTICAL, KEYWORD_HORIZONTAL); // TODO extends and do then properly
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mCardScroller.activate();
-        // to go to pause and change state of SpeechRecognizer will happen rarely, so we will not
-        // handle setting footer TextView to "". Maybe later. //TODO check if this will slow program and make glass hotter
-        mCardAdapter.setTextForFooter("");
-        //mSpeechRecognition.initializeSpeechRecognizer(); //TODO extends this activity
+        mSpeechRecognition.startSpeechRecognition(SpeechRecognition.KEYWORD_VERTICAL);
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mCardScroller.deactivate();
-        mSpeechRecognition.shutdownSpeechRecognition();
-    }
-
 
     /**
      * called first (before we used (recommended) onGenericMotionEvent())
@@ -102,7 +67,7 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Global.LogDebug("TutorialActivity.onItemClick()");
-        TutorialCardAdapter.TutorialCard mTutorialCard = mCardAdapter.getTutorialCardAt(position);
+        TutorialCardAdapter.TutorialCard mTutorialCard =  mCommunicator.getItem(position);
         if (mTutorialCard.getHasBeenDone()) return;
         switch (mTutorialCard) {
             case TAP_TOUCHPAD:
@@ -125,19 +90,9 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
      * insert at end
      **/
     public void insertCardWithAnimation(TutorialCardAdapter.TutorialCard mTutorialCard) {
-        mCardAdapter.insertCardWithoutAnimation(mTutorialCard);
+        mCommunicator.insertCardWithoutAnimation(mTutorialCard);
         //mCardAdapter.notifyDataSetChanged();
         mCardScroller.animate(mCardAdapter.getCount() - 1, CardScrollView.Animation.INSERTION);
-    }
-
-    /**
-     * need to do this, otherwise variable values will retain the same regardless of activity lifecycle
-     **/
-    private void initializeEnums() {
-        for (TutorialCardAdapter.TutorialCard mTutorialCard : TutorialCardAdapter.TutorialCard.values()) {
-            mTutorialCard.setHasBeenDone(false);
-            mTutorialCard.clearCheckMarkPressed();
-        }
     }
 
     @Override
@@ -151,7 +106,7 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
         switch (mTutorialCard) {
             case SWIPING:
                 returnValue = checkForCorrectGesture(mTutorialCard,  TutorialCardAdapter.TutorialCard.SAYLEFTRIGHT, gesture, Gesture.SWIPE_LEFT, Gesture.SWIPE_RIGHT); //TODO set proper card
-                mSpeechRecognition.switchSearch(KEYWORD_HORIZONTAL);
+                mSpeechRecognition.switchSearch(SpeechRecognition.KEYWORD_HORIZONTAL);
                 break;
             case SWIPEDOWN:
                returnValue = checkForCorrectGesture(mTutorialCard,  TutorialCardAdapter.TutorialCard.SAYUPDOWN, gesture, Gesture.SWIPE_DOWN);
@@ -233,22 +188,6 @@ public class TutorialActivity extends Activity implements TutorialGestures.OnGes
             if (id != -1) {
                 setCheckMarkAndProceed(mTutorialCard, nextCard, id);
             }
-    }
-
-    @Override
-    public void onSpeechStateChanged(String resultText) {
-        if(resultText.equals(""))
-            resultText = getString(R.string.say_skip_tutorial);
-        setAnimationForFooterTextView();
-        mCardAdapter.setTextForFooter(resultText);
-    }
-
-    private void setAnimationForFooterTextView()
-    {
-        View tutorialLayout = mCardScroller.getSelectedView();
-        View tvFooter = tutorialLayout.findViewById(R.id.tvFooter);
-        // we use the same duration as animation for CheckMarkView
-        FrequentAnimations.fadeIn(tvFooter, "");
     }
 
     private void goToSensorsActivity()

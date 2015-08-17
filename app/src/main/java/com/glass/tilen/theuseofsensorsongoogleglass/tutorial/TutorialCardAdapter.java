@@ -1,7 +1,6 @@
 package com.glass.tilen.theuseofsensorsongoogleglass.tutorial;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -9,8 +8,8 @@ import android.widget.TextView;
 
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.animations.checkmark.CheckMarkView;
+import com.glass.tilen.theuseofsensorsongoogleglass.inheritance.cardadapter.BaseCardAdapter;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
-import com.google.android.glass.widget.CardScrollAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +17,11 @@ import java.util.List;
 /**
  * Created by Tilen on 14.7.2015.
  */
-public class TutorialCardAdapter extends CardScrollAdapter {
+public class TutorialCardAdapter extends BaseCardAdapter implements TutorialCardAdapterCommunicator {
 
     private final List<TutorialCard> mTutorialCards;
     /** CardBuilder holds also a reference to the view, because convertView in getView is always null **/
     private final List<View> mView;
-    private final Context mContext;
-    private String textForFooter;
 
     public TutorialCardAdapter(Context mContext) {
         mTutorialCards = new ArrayList<TutorialCard>();
@@ -34,12 +31,18 @@ public class TutorialCardAdapter extends CardScrollAdapter {
     }
 
     @Override
+    public TutorialCardAdapterCommunicator getCommunicator()
+    {
+        return this;
+    }
+
+    @Override
     public int getCount() {
         return mTutorialCards.size();
     }
 
     @Override
-    public Object getItem(int i) {
+    public TutorialCard getItem(int i) {
         return mTutorialCards.get(i);
     }
 
@@ -50,8 +53,7 @@ public class TutorialCardAdapter extends CardScrollAdapter {
 
         if(mTutorialCards.get(position).getHasBeenDone())
             return mView.get(position);
-        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View tutorialLayout = layoutInflater.inflate(R.layout.tutorial_layout, null);
+        View tutorialLayout = createBaseView(R.layout.tutorial_layout);
         populateView(tutorialLayout, position);
         mView.add(tutorialLayout);
         return tutorialLayout;
@@ -72,15 +74,11 @@ public class TutorialCardAdapter extends CardScrollAdapter {
             cvCheckMark.setVisibility(View.GONE);
         else if(checkMarkCount == 2)
             cvCheckMark2.setVisibility(View.VISIBLE);
-        if(textForFooter != "") {
-            TextView tvFooter = (TextView) tutorialLayout.findViewById(R.id.tvFooter);
-            tvFooter.setText(textForFooter);
-        }
+        setTextForFooterView(tutorialLayout);
     }
 
     @Override
     public int getPosition(Object o) {
-
         for (int i = 0; i < mTutorialCards.size(); i++) {
             if (getItem(i).equals(o)) {
                 return i;
@@ -89,25 +87,9 @@ public class TutorialCardAdapter extends CardScrollAdapter {
         return AdapterView.INVALID_POSITION;
     }
 
-
+    @Override
     public void insertCardWithoutAnimation(TutorialCard mTutorialCard) {
         mTutorialCards.add(mTutorialCard);
-    }
-
-    public TutorialCard getTutorialCardAt(int position)
-    {
-        return mTutorialCards.get(position);
-    }
-
-
-    public void setTextForFooter(String textToDisplay)
-    {
-        this.textForFooter = textToDisplay;
-        for(View tutorialLayout : mView)
-        {
-            TextView tvFooter = (TextView) tutorialLayout.findViewById(R.id.tvFooter);
-            tvFooter.setText(textToDisplay);
-        }
     }
 
     public enum TutorialCard
@@ -148,6 +130,16 @@ public class TutorialCardAdapter extends CardScrollAdapter {
         public void clearCheckMarkPressed()
         {
             checkMarkPressed = 0;
+        }
+
+        /**
+         * need to do this, otherwise variable values will retain the same regardless of activity lifecycle
+         **/
+        public static void initializeEnums() {
+            for (TutorialCardAdapter.TutorialCard mTutorialCard : TutorialCardAdapter.TutorialCard.values()) {
+                mTutorialCard.setHasBeenDone(false);
+                mTutorialCard.clearCheckMarkPressed();
+            }
         }
 
         TutorialCard(int titleId, int descriptionId, int checkMarkCount) {
