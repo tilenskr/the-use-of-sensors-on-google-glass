@@ -17,7 +17,10 @@ public abstract class BaseCardAdapter extends CardScrollAdapter implements BaseC
     protected String textForFooter;
     protected Context mContext;
 
-    public abstract BaseCardCommunicator getCommunicator();
+    public BaseCardCommunicator getCommunicator()
+    {
+        throw new RuntimeException("Stub!");
+    }
 
     protected View createBaseView(int layoutId)
     {
