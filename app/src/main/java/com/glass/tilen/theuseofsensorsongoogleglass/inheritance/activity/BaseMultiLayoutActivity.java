@@ -25,7 +25,7 @@ public abstract class BaseMultiLayoutActivity extends BaseActivity {
         mCardScroller.activate();
         // to go to pause and change state of SpeechRecognizer will happen rarely, so we will not
         // handle setting footer TextView to "". Maybe later. //TODO check if this will slow program and make glass hotter
-        mCardAdapter.setTextForFooter("");
+        setTextForFooter("", -1);
     }
 
     @Override
@@ -42,6 +42,10 @@ public abstract class BaseMultiLayoutActivity extends BaseActivity {
         setTextForFooter(resultText, mCardScroller.getSelectedItemPosition());
     }
 
+    /**
+   @param position - on which card don't set the text (see onSpeechStateChanged, why this is
+        implemented)
+     */
     protected void setTextForFooter(String resultText, int position)
     {
         mCardAdapter.setTextForFooter(resultText);
