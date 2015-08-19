@@ -38,11 +38,24 @@ public class MainSensorManager implements SensorEventListener {
         mSensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
     }
 
-    public void setSensor(int sensorType, MainSensorManagerCallback mCallback )
+    // TODO separate this method (check set sensorcallback and setSensor(int sensorType)
+    public void setSensor(int sensorType, MainSensorManagerCallback mCallback)
     {
         mSensors = mSensorManager.getDefaultSensor(sensorType);
         Global.SensorsDebug("MainSensorManager.setSensor(): Maximum sensor value: " + mSensors.getMaximumRange());
         this.mCallback = mCallback;
+    }
+
+    public void setSensorCallback(MainSensorManagerCallback mCallback)
+    {
+        this.mCallback = mCallback;
+    }
+
+    public void setSensor(int sensorType)
+    {
+        mSensors = mSensorManager.getDefaultSensor(sensorType);
+        Global.SensorsDebug("MainSensorManager.setSensor(): Sensor name: " + mSensors.getName() +
+                " Maximum sensor value: " + mSensors.getMaximumRange());
     }
 
     public void registerSensor()
