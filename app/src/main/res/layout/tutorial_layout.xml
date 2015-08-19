@@ -82,8 +82,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:text=""
-            android:textSize="12dp" />
-
+            android:textSize="@dimen/tutorial_footer_size" />
 
     </LinearLayout>
 
