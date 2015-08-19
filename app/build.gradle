@@ -5,6 +5,7 @@ repositories {
     flatDir {
         dirs 'prebuilt-libs'
     }
+    maven { url "https://jitpack.io" }
 }
 
 android {
@@ -29,6 +30,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.github.PhilJay:MPAndroidChart:v2.1.3'
 }
 
 ant.importBuild 'assets.xml'
