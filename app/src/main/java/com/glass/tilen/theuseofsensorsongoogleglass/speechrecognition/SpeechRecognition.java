@@ -78,8 +78,7 @@ public class SpeechRecognition implements RecognitionListener {
     public void startSpeechRecognition(final String keywordSearch) {
         // try and catch - not nice, but maybe will catch some bugs
         currentKeywordSearch = keywordSearch;
-        if(!active)
-        {
+        if (!active) {
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -121,7 +120,7 @@ public class SpeechRecognition implements RecognitionListener {
         };
         Runnable runnable = mHelperQueue.addRunnable(run, HelperQueue.INITIALIZE);
         Global.TestDebug("SpeechRecognition.startSpeechRecognition(): runnable" +
-                runnable +  ", id: " + HelperQueue.INITIALIZE);
+                runnable + ", id: " + HelperQueue.INITIALIZE);
         if (runnable != null)
             mHandler.post(runnable);
     }
@@ -204,7 +203,7 @@ public class SpeechRecognition implements RecognitionListener {
         if (active) {
             Runnable runnable = mHelperQueue.addRunnable(initializeSpeechRecognizer(), HelperQueue.INITIALIZE);
             Global.TestDebug("SpeechRecognition.setActive(): runnable" +
-                    runnable +  ", id: " + HelperQueue.INITIALIZE);
+                    runnable + ", id: " + HelperQueue.INITIALIZE);
             if (runnable != null)
                 mHandler.post(runnable);
             textToDisplay = "";
@@ -216,18 +215,11 @@ public class SpeechRecognition implements RecognitionListener {
     }
 
     public void switchSearch(final String searchName) {
-        //TODO set thread on, off for debugging purposes
-        //new Thread(new Runnable() {
-        //  @Override
-        // public void run() {
         currentKeywordSearch = searchName;
         Global.SpeechDebug("SpeechRecognition.switchSearch(): searchName: " + searchName);
         mSpeechRecognizer.stop();
         // If we are not spotting, start listening with timeout (10000 ms or 10 seconds).
         mSpeechRecognizer.startListening(currentKeywordSearch);
-        //  }
-        //}).start();
-
     }
 
     @Override
@@ -281,8 +273,7 @@ public class SpeechRecognition implements RecognitionListener {
         switchSearch(currentKeywordSearch);
     }
 
-    public void cancelCallback()
-    {
+    public void cancelCallback() {
         mCallback = null;
     }
 
@@ -325,7 +316,7 @@ public class SpeechRecognition implements RecognitionListener {
                         };
                         Runnable mRunnable = mHelperQueue.addRunnable(run, HelperQueue.SHUTDOWN);
                         Global.TestDebug("SpeechRecognition.shutdownSpeechRecognition(): runnable" +
-                                mRunnable +  ", id: " + HelperQueue.SHUTDOWN);
+                                mRunnable + ", id: " + HelperQueue.SHUTDOWN);
                         if (mRunnable != null)
                             mHandler.post(mRunnable);
                     }
@@ -349,7 +340,7 @@ public class SpeechRecognition implements RecognitionListener {
 
         @Override
         protected void onPostExecute(Exception result) {
-            Global.SpeechDebug("SpeechRecognition.onPostExecute(): active: " +active + ", result: " + result
+            Global.SpeechDebug("SpeechRecognition.onPostExecute(): active: " + active + ", result: " + result
                     + ", Callback: " + mCallback);
             String resultText = "";
             if (!active) {
@@ -370,8 +361,7 @@ public class SpeechRecognition implements RecognitionListener {
                 if (mCallback != null) {
                     mCallback.onSpeechStateChanged(resultText);
                     switchSearch(currentKeywordSearch);
-                }
-                else
+                } else
                     shutdownSpeechRecognition();
             }
             executePendingAction();

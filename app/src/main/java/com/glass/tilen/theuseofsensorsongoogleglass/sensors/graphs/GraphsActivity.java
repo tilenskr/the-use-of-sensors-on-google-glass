@@ -55,7 +55,7 @@ public class GraphsActivity extends MultiLayoutActivity implements MainSensorMan
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Global.LogDebug("GraphsActivity.onItemSelected(): Position: " + position);
         mainSensorManager.setSensor(GraphsCardAdapter.GraphsCard.values()[position].getSensorType());
-        mainSensorManager.registerSensor(15);
+        mainSensorManager.registerSensor(14);
     }
 
     @Override
