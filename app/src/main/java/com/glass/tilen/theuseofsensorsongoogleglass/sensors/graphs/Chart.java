@@ -35,6 +35,8 @@ public class Chart {
         /** general chart settings **/
         // no description text
         mChart.setDescription("");
+        mChart.setNoDataText("");
+        mChart.setNoDataTextDescription("");
         mChart.setDrawGridBackground(false);
         mChart.setDragEnabled(false);
         mChart.setScaleEnabled(false);
