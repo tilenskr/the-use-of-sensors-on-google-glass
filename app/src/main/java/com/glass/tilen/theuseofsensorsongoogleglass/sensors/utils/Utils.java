@@ -49,4 +49,16 @@ public class Utils {
         }
         return output;
     }
+
+    public static float[] normalizeArray(float[] values)
+    {
+        double sum = 0;
+        for(float value : values)
+            sum += value * value;
+        double sqrtSum = Math.sqrt(sum);
+        float[] newValues = new float[values.length];
+        for(int i = 0; i < values.length; i++)
+            newValues[i] = (float) (values[i] / sqrtSum);
+        return newValues;
+    }
 }
