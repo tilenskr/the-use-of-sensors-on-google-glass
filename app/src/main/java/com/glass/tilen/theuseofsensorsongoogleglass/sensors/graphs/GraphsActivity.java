@@ -4,13 +4,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.inheritance.activity.MultiLayoutActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.manager.MainSensorManager;
+import com.glass.tilen.theuseofsensorsongoogleglass.sensors.utils.Utils;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
 import com.glass.tilen.theuseofsensorsongoogleglass.speechrecognition.SpeechRecognition;
 
 public class GraphsActivity extends MultiLayoutActivity implements MainSensorManager.MainSensorManagerCallback,
-        AdapterView.OnItemSelectedListener {
+        AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
 
     private GraphsCardAdapterCommunicator mCommunicator;
     private MainSensorManager mainSensorManager;
@@ -23,6 +25,7 @@ public class GraphsActivity extends MultiLayoutActivity implements MainSensorMan
         mCardScroller.setAdapter(mCardAdapter);
         setContentView(mCardScroller);
         mCardScroller.setOnItemSelectedListener(this);
+        mCardScroller.setOnItemClickListener(this);
         mainSensorManager = MainSensorManager.getInstance(this);
         mainSensorManager.setSensorCallback(this);
     }
@@ -30,7 +33,7 @@ public class GraphsActivity extends MultiLayoutActivity implements MainSensorMan
     @Override
     protected void onResume() {
         super.onResume();
-        mSpeechRecognition.startSpeechRecognition(SpeechRecognition.KEYWORD_NAVIGATION_LEFT_RIGHT_BACK);
+        mSpeechRecognition.startSpeechRecognition(SpeechRecognition.KEYWORD_NAVIGATION_BACK);
     }
 
     @Override
@@ -40,10 +43,19 @@ public class GraphsActivity extends MultiLayoutActivity implements MainSensorMan
     }
 
     @Override
+    public void onSpeechResult(String text) {
+        super.onSpeechResult(text);
+        if(text.equals(getString(R.string.forward)))
+        {
+            onItemClick(null, mCardScroller.getSelectedView(), mCardScroller.getSelectedItemPosition(), -1);
+        }
+    }
+
+    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Global.LogDebug("GraphsActivity.onItemSelected(): Position: " + position);
         mainSensorManager.setSensor(GraphsCardAdapter.GraphsCard.values()[position].getSensorType());
-        mainSensorManager.registerSensor();
+        mainSensorManager.registerSensor(15);
     }
 
     @Override
@@ -54,6 +66,13 @@ public class GraphsActivity extends MultiLayoutActivity implements MainSensorMan
 
     @Override
     public void onSensorValueChanged(float[] values) {
+        values = Utils.normalizeArray(values);
         mCommunicator.addNewPoints(mCardScroller.getSelectedView(), values);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        mCommunicator.changeAxis(mCardScroller.getSelectedView());
+
     }
 }

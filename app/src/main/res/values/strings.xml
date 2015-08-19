@@ -48,4 +48,8 @@
     <string name="graphs_linear">Linear Acceleration</string>
     <string name="graphs_magnetic">Magnetic field</string>
     <string name="graphs_rotation">Rotation Vector</string>
+    <string name="x_axis">X-axis</string>
+    <string name="y_axis">Y-axis</string>
+    <string name="z_axis">Z-axis</string>
+    <string name="sample_format">Sample No. %1$s</string>
 </resources>

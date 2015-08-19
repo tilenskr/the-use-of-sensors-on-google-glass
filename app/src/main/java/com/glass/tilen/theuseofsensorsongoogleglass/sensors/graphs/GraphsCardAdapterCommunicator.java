@@ -9,4 +9,5 @@ import com.glass.tilen.theuseofsensorsongoogleglass.inheritance.cardadapter.inte
  */
 public interface GraphsCardAdapterCommunicator extends BaseCardCommunicator {
     void addNewPoints(View graphsLayout, float[] values);
+    void changeAxis(View graphsLayout);
 }

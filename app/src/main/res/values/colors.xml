@@ -4,4 +4,7 @@
     <color name="green">#2E7D32</color>
     <color name="sensor_layout_picture_background">#222222</color>
     <color name="action_text">#808080</color>
+    <color name="x_axis">#03A9F4</color>
+    <color name="y_axis">#FF5722</color>
+    <color name="z_axis">#FFC107</color>
 </resources>

@@ -22,7 +22,6 @@ public class GraphsCardAdapter extends BaseCardAdapter implements GraphsCardAdap
         this.textForFooter = "";
     }
 
-
     @Override
     public GraphsCardAdapterCommunicator getCommunicator()
     {
@@ -52,7 +51,7 @@ public class GraphsCardAdapter extends BaseCardAdapter implements GraphsCardAdap
         TextView tvSensor = (TextView) graphsLayout.findViewById(R.id.tvSensor);
         LineChart mLineChart = (LineChart) graphsLayout.findViewById(R.id.lineChart);
         tvSensor.setText(mGraphsCard.sensor);
-        Chart mChart = new Chart(mLineChart);
+        Chart mChart = new Chart(mLineChart, mContext);
         graphsLayout.setTag(mChart);
         setTextForFooterView(graphsLayout);
     }
@@ -74,6 +73,12 @@ public class GraphsCardAdapter extends BaseCardAdapter implements GraphsCardAdap
         mChart.addSensorValues(values);
     }
 
+    @Override
+    public void changeAxis(View graphsLayout) {
+        Chart mChart = (Chart) graphsLayout.getTag();
+        mChart.changeAxis();
+    }
+
     public enum GraphsCard
     {
         ACCELEROMETER(R.string.graphs_accelerometer, Sensor.TYPE_ACCELEROMETER),
@@ -89,7 +94,6 @@ public class GraphsCardAdapter extends BaseCardAdapter implements GraphsCardAdap
         public int getSensorType() {
             return sensorType;
         }
-
 
         GraphsCard(int sensor, int sensorType) {
             this.sensor = sensor;
