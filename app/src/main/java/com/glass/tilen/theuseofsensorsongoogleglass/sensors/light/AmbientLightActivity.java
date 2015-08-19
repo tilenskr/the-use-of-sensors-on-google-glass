@@ -29,7 +29,8 @@ public class AmbientLightActivity extends SingleLayoutActivity implements
         tvFooter = (TextView) findViewById(R.id.tvFooter);
         ivPicture = (ImageView) findViewById(R.id.ivPicture);
         mainSensorManager = MainSensorManager.getInstance(this);
-        mainSensorManager.setSensor(Sensor.TYPE_LIGHT, this);
+        mainSensorManager.setSensorCallback(this);
+        mainSensorManager.setSensor(Sensor.TYPE_LIGHT);
         mBitmapBrightnessTask = new BitmapBrightnessTask();
         mSoundPlayer = new SoundPlayer(this);
         mSoundPlayer.setSounds(R.raw.zombie_death);
@@ -39,8 +40,8 @@ public class AmbientLightActivity extends SingleLayoutActivity implements
     protected void onResume() {
         super.onResume();
         mSpeechRecognition.startSpeechRecognition(SpeechRecognition.KEYWORD_NAVIGATION_BACK);
-        mainSensorManager.registerSensor();
-    }
+        mainSensorManager.registerSensor(1);
+}
 
     @Override
     protected void onPause() {
