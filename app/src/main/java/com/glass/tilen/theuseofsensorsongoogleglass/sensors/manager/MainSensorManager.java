@@ -19,7 +19,11 @@ public class MainSensorManager implements SensorEventListener {
     private static MainSensorManager ourInstance = null;
     private Sensor mSensors;
     private MainSensorManagerCallback mCallback;
-
+    /**
+        how often do we take samples
+     */
+    private int samplesFrequency;
+    private int sensorSampleCounter;
     public interface MainSensorManagerCallback
     {
         void onSensorValueChanged(float[] values);
@@ -38,14 +42,6 @@ public class MainSensorManager implements SensorEventListener {
         mSensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
     }
 
-    // TODO separate this method (check set sensorcallback and setSensor(int sensorType)
-    public void setSensor(int sensorType, MainSensorManagerCallback mCallback)
-    {
-        mSensors = mSensorManager.getDefaultSensor(sensorType);
-        Global.SensorsDebug("MainSensorManager.setSensor(): Maximum sensor value: " + mSensors.getMaximumRange());
-        this.mCallback = mCallback;
-    }
-
     public void setSensorCallback(MainSensorManagerCallback mCallback)
     {
         this.mCallback = mCallback;
@@ -58,8 +54,15 @@ public class MainSensorManager implements SensorEventListener {
                 " Maximum sensor value: " + mSensors.getMaximumRange());
     }
 
-    public void registerSensor()
+    /**
+     *
+     * @param samplesFrequency - how often do we take samples
+     */
+    public void registerSensor(int samplesFrequency)
     {
+        this.samplesFrequency = samplesFrequency;
+        sensorSampleCounter = 0;
+        mSensorManager.unregisterListener(this);
         mSensorManager.registerListener(this, mSensors, SensorManager.SENSOR_DELAY_UI);
     }
 
@@ -77,8 +80,12 @@ public class MainSensorManager implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        Global.SensorsDebug("MainSensorManager.onSensorChanged(): values " + Arrays.toString(event.values));
-        mCallback.onSensorValueChanged(event.values);
+        sensorSampleCounter++;
+        sensorSampleCounter %= samplesFrequency;
+        if(sensorSampleCounter == 0) {
+            Global.SensorsDebug("MainSensorManager.onSensorChanged(): values " + Arrays.toString(event.values));
+            mCallback.onSensorValueChanged(event.values);
+        }
     }
 
     @Override
