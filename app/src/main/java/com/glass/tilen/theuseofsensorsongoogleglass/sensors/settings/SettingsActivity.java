@@ -16,6 +16,8 @@ import java.util.HashMap;
 public class SettingsActivity extends MultiLayoutActivity implements AdapterView.OnItemClickListener {
 
     private SettingsCardAdapterCommunicator mCommunicator;
+
+    private long timer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +26,7 @@ public class SettingsActivity extends MultiLayoutActivity implements AdapterView
         mCardScroller.setAdapter(mCardAdapter);
         mCardScroller.setOnItemClickListener(this);
         setContentView(mCardScroller);
+        timer = 0;
     }
 
     @Override
@@ -51,6 +54,13 @@ public class SettingsActivity extends MultiLayoutActivity implements AdapterView
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Global.LogDebug("SettingsActivity.onItemClick()");
+        //timer otherwise we could have problems
+            long difference = System.currentTimeMillis() - timer;
+            Global.LogDebug("SettingsActivity.onItemClick(): Difference between two click:" + difference );
+            if (difference < 500)
+                return;
+            else
+                timer = System.currentTimeMillis();
         mAudioManager.playSoundEffect(Sounds.SUCCESS);
         SettingsCardAdapter.SettingsCard mSettingsCard = mCommunicator.getItem(position);
         switch (mSettingsCard)

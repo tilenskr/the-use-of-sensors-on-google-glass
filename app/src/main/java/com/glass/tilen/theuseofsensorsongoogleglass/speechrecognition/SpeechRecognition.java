@@ -77,6 +77,17 @@ public class SpeechRecognition implements RecognitionListener {
 
     public void startSpeechRecognition(final String keywordSearch) {
         // try and catch - not nice, but maybe will catch some bugs
+        if(!active)
+        {
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (mCallback != null)
+                        mCallback.onSpeechStateChanged("-1");
+                }
+            }, 1000);
+            return;
+        }
         mHandler.removeCallbacksAndMessages(null);
         currentKeywordSearch = keywordSearch;
         Runnable run = new Runnable() {
@@ -118,6 +129,7 @@ public class SpeechRecognition implements RecognitionListener {
 
     private Runnable initializeSpeechRecognizer() {
         mHandler.removeCallbacksAndMessages(null);
+        Global.TestDebug("SpeechRecognition.initializeSpeechRecognizer()");
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -187,6 +199,7 @@ public class SpeechRecognition implements RecognitionListener {
 
     public String setActive() {
         active = !active;
+        mHandler.removeCallbacksAndMessages(null);
         String textToDisplay;
         if (active) {
             Runnable runnable = mHelperQueue.addRunnable(initializeSpeechRecognizer(), HelperQueue.INITIALIZE);

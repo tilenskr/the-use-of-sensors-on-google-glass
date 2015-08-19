@@ -33,7 +33,7 @@ public class GraphsActivity extends MultiLayoutActivity implements MainSensorMan
     @Override
     protected void onResume() {
         super.onResume();
-        mSpeechRecognition.startSpeechRecognition(SpeechRecognition.KEYWORD_NAVIGATION_BACK);
+        mSpeechRecognition.startSpeechRecognition(SpeechRecognition.KEYWORD_NAVIGATION_ALL);
     }
 
     @Override
