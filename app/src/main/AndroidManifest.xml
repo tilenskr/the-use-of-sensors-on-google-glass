@@ -57,7 +57,9 @@
         </activity>
         <activity
             android:name=".sensors.graphs.GraphsActivity"
-            android:label="@string/title_activity_graphs" >
+            android:label="@string/title_activity_graphs"
+            android:exported="true"
+            >
         </activity>
     </application>
 
