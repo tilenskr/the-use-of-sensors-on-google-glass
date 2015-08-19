@@ -58,6 +58,8 @@ public class SettingsActivity extends MultiLayoutActivity implements AdapterView
             case SPEECH_RECOGNITION:
                 Preferences.setSpeechRecognition(this);
                 String textToDisplay = mSpeechRecognition.setActive();
+                if(textToDisplay.equals("-1"))
+                    textToDisplay = getString(R.string.speak_disabled);
                 mCommunicator.changeActionText(mSettingsCard, view);
                 mCommunicator.setFadeOutFadeInAnimationForFooterTextView(view, textToDisplay);
                 setTextForFooter(textToDisplay, mCardScroller.getSelectedItemPosition());
