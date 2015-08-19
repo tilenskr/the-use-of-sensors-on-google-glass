@@ -77,6 +77,7 @@ public class SpeechRecognition implements RecognitionListener {
 
     public void startSpeechRecognition(final String keywordSearch) {
         // try and catch - not nice, but maybe will catch some bugs
+        currentKeywordSearch = keywordSearch;
         if(!active)
         {
             mHandler.postDelayed(new Runnable() {
@@ -89,7 +90,6 @@ public class SpeechRecognition implements RecognitionListener {
             return;
         }
         mHandler.removeCallbacksAndMessages(null);
-        currentKeywordSearch = keywordSearch;
         Runnable run = new Runnable() {
             @Override
             public void run() {
