@@ -22,7 +22,6 @@ public class AmbientLightActivity extends SingleLayoutActivity implements
     private BitmapBrightnessTask mBitmapBrightnessTask;
     private SoundPlayer mSoundPlayer;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +33,6 @@ public class AmbientLightActivity extends SingleLayoutActivity implements
         mBitmapBrightnessTask = new BitmapBrightnessTask();
         mSoundPlayer = new SoundPlayer(this);
         mSoundPlayer.setSounds(R.raw.zombie_death);
-
     }
 
     @Override

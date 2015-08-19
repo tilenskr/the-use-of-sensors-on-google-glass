@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.inheritance.activity.MultiLayoutActivity;
+import com.glass.tilen.theuseofsensorsongoogleglass.sensors.graphs.GraphsActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.headdetection.HeadDetectionActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.light.AmbientLightActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.overview.OverviewActivity;
@@ -42,6 +43,7 @@ public class SensorsActivity extends MultiLayoutActivity implements AdapterView.
         switch ((SensorsCardAdapter.SensorsCard)mCardAdapter.getItem(position))
         {
             case GRAPH_SENSORS:
+                intent = new Intent(this, GraphsActivity.class);
                 break;
             case AMBIENT_LIGHT:
                 intent = new Intent(this, AmbientLightActivity.class);

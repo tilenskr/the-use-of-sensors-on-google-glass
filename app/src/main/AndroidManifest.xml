@@ -14,11 +14,10 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
+            android:exported="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/title_activity_main"
-            android:launchMode="singleInstance"
-            android:exported="true"
-            >
+            android:launchMode="singleInstance" >
             <intent-filter>
                 <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
                 <action android:name="android.intent.action.MAIN" />
@@ -33,32 +32,32 @@
         <activity
             android:name=".tutorial.TutorialActivity"
             android:exported="true" />
-        <activity android:name=".sensors.SensorsActivity"
-            android:exported="true"
-            />
+        <activity
+            android:name=".sensors.SensorsActivity"
+            android:exported="true" />
         <activity
             android:name=".sensors.overview.OverviewActivity"
-            android:label="@string/title_activity_overview"
             android:exported="true"
-            >
+            android:label="@string/title_activity_overview" >
         </activity>
         <activity
             android:name=".sensors.settings.SettingsActivity"
-            android:label="@string/title_activity_settings"
             android:exported="true"
-            >
+            android:label="@string/title_activity_settings" >
         </activity>
         <activity
             android:name=".sensors.light.AmbientLightActivity"
-            android:label="@string/title_activity_ambient_light"
             android:exported="true"
-            >
+            android:label="@string/title_activity_ambient_light" >
         </activity>
         <activity
             android:name=".sensors.headdetection.HeadDetectionActivity"
-            android:label="@string/title_activity_head_detection"
             android:exported="true"
-            >
+            android:label="@string/title_activity_head_detection" >
+        </activity>
+        <activity
+            android:name=".sensors.graphs.GraphsActivity"
+            android:label="@string/title_activity_graphs" >
         </activity>
     </application>
 

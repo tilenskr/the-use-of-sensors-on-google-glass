@@ -48,7 +48,6 @@ public class SettingsActivity extends MultiLayoutActivity implements AdapterView
         return actions;
     }
 
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Global.LogDebug("SettingsActivity.onItemClick()");

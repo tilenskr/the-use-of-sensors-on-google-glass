@@ -41,5 +41,11 @@
     <string name="title_activity_ambient_light">AmbientLightActivity</string>
     <string name="title_activity_head_detection">HeadDetectionActivity</string>
     <string name="head_detection_instruction">This feature will work, if you have enabled on-head detection in settings</string>
-
+    <string name="title_activity_graphs">GraphsActivity</string>
+    <string name="graphs_accelerometer">Accelerometer</string>
+    <string name="graphs_gravity">Gravity</string>
+    <string name="graphs_gyroscope">Gyroscope</string>
+    <string name="graphs_linear">Linear Acceleration</string>
+    <string name="graphs_magnetic">Magnetic field</string>
+    <string name="graphs_rotation">Rotation Vector</string>
 </resources>

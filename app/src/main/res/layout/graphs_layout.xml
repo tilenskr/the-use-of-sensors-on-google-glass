@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:id="@+id/body_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="UselessLeaf"
+        >
+        <TextView
+            android:id="@+id/tvSensor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Accelerometer"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
+            android:background="@color/sensor_layout_picture_background"
+            android:paddingLeft="@dimen/glass_card_margin"
+            android:paddingRight="@dimen/glass_card_margin"
+
+            android:layout_below="@id/tvSensor"
+            android:layout_above="@id/tvFooter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/tvFooter"
+            android:background="@color/sensor_layout_picture_background"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|left"
+            android:paddingLeft="23px"
+            android:paddingBottom="13px"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/speak_navigate"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            />
+
+        <!-- Put your widgets inside this RelativeLayout. -->
+
+    </RelativeLayout>
+
+</FrameLayout>
