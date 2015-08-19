@@ -34,6 +34,8 @@ public abstract class SingleLayoutActivity extends BaseActivity {
     public void onSpeechStateChanged(String resultText) {
         if(resultText.equals(""))
             resultText = getString(R.string.speak_navigate);
+        else if(resultText.equals("-1"))
+            resultText = getString(R.string.speak_disabled);
         FrequentAnimations.fadeIn(tvFooter, resultText);
     }
 

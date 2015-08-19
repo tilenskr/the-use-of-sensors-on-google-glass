@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 
-import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
 
 import java.io.File;
@@ -143,7 +142,7 @@ public class SpeechRecognition implements RecognitionListener {
                         @Override
                         public void run() {
                             if (mCallback != null)
-                                mCallback.onSpeechStateChanged(mContext.getString(R.string.speak_disabled));
+                                mCallback.onSpeechStateChanged("-1");
                         }
                     }, 1000);
                 }
@@ -198,7 +197,7 @@ public class SpeechRecognition implements RecognitionListener {
             textToDisplay = "";
         } else {
             shutdownSpeechRecognition();
-            textToDisplay = mContext.getString(R.string.speak_disabled);
+            textToDisplay = "-1";
         }
         return textToDisplay;
     }
@@ -342,7 +341,7 @@ public class SpeechRecognition implements RecognitionListener {
             String resultText = "";
             if (!active) {
                 if (mCallback != null)
-                    mCallback.onSpeechStateChanged(mContext.getString(R.string.speak_disabled));
+                    mCallback.onSpeechStateChanged("-1");
                 executePendingAction();
                 shutdownSpeechRecognition();
                 return;
