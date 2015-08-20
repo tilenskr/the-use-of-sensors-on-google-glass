@@ -9,6 +9,7 @@ public class HelperQueue {
 
     public static int INITIALIZE = 0;
     public static int SHUTDOWN = 1;
+
     private class QueueItem
     {
         private Runnable runnable;
@@ -20,6 +21,7 @@ public class HelperQueue {
             this.itemId = itemId;
         }
     }
+
     private ArrayDeque<QueueItem> queue;
     private int currentItemId;
 
