@@ -73,6 +73,5 @@ public class GraphsActivity extends MultiLayoutActivity implements MainSensorMan
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mCommunicator.changeAxis(mCardScroller.getSelectedView());
-
     }
 }

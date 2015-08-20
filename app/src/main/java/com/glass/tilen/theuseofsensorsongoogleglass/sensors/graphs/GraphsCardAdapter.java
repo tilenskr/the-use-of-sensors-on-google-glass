@@ -16,7 +16,6 @@ import com.glass.tilen.theuseofsensorsongoogleglass.inheritance.cardadapter.Base
  */
 public class GraphsCardAdapter extends BaseCardAdapter implements GraphsCardAdapterCommunicator {
 
-
     public GraphsCardAdapter(Context mContext) {
         this.mContext = mContext;
         this.textForFooter = "";

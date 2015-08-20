@@ -15,14 +15,12 @@ public abstract class BaseActivity extends Activity implements SpeechRecognition
     protected SpeechRecognition mSpeechRecognition;
     protected AudioManager mAudioManager;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Preferences.setScreenOn(this);
         mAudioManager = Global.getAudioManager(this);
         mSpeechRecognition = SpeechRecognition.getInstance(this);
-
     }
 
     @Override

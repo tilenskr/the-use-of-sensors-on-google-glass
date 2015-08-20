@@ -42,6 +42,7 @@ public class Chart {
         mChart.setScaleEnabled(false);
         mChart.setPinchZoom(false);
         mChart.setTouchEnabled(false);
+
         /** LineData **/
         LineData data = new LineData();
        data.setValueTextColor(Color.WHITE);
@@ -114,11 +115,9 @@ public class Chart {
             }
             lineData.addEntry(new Entry(values[i], (lineData.getXValCount() - 1)), i);
         }
-
         mChart.notifyDataSetChanged();
         // limit the number of visible entries
         mChart.setVisibleXRangeMaximum(20);
-
         // move to the latest entry
         mChart.moveViewToX(lineData.getXValCount() - 21);
     }
@@ -128,5 +127,4 @@ public class Chart {
         axis++;
         axis %= 4;
     }
-
 }

@@ -27,7 +27,7 @@ public class HeadDetection {
         this.mCallback = mCallback;
     }
 
-    /* will listen to ACTION_ON_HEAD_STATE_CHANGED_EVENTS*/
+    /** will listen to ACTION_ON_HEAD_STATE_CHANGED_EVENTS **/
     private final BroadcastReceiver broadCastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

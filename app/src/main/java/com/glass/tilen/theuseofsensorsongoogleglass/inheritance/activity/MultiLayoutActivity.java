@@ -36,6 +36,5 @@ public abstract class MultiLayoutActivity extends BaseMultiLayoutActivity {
             position++;
             navigateToCard(position);
         }
-
     }
 }

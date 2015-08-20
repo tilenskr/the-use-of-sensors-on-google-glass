@@ -73,5 +73,4 @@ public class FrequentAnimations {
         animatorSet.setDuration(400);
         animatorSet.start();;
     }
-
 }

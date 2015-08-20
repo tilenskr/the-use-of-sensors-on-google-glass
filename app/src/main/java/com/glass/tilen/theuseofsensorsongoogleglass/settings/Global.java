@@ -8,6 +8,7 @@ import android.util.Log;
  * Created by Tilen on 19.7.2015.
  */
 public class Global {
+
     private static final String DEBUGTAG = "sensors.debug";
     private static final String INFOTAG = "sensors.info";
     private static final String ERRORTAG = "sensors.error";
@@ -15,16 +16,12 @@ public class Global {
     private static final String SPEECHTAG = "sensors.speech";
     private static final String SENSORSTAG = "sensors.sensors";
 
-
-
     private static final boolean debug = true;
     private static final boolean info = true;
     private static final boolean error = true;
     private static final boolean test = true;
     private static final boolean speech = true;
     private static final boolean sensors = true;
-
-
 
     public static void LogDebug(String message) {
         if (debug)

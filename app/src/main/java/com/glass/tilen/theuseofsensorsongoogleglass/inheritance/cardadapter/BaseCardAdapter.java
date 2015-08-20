@@ -43,7 +43,7 @@ public abstract class BaseCardAdapter extends CardScrollAdapter implements BaseC
     public void setAnimationForFooterTextView(View sensorsLayout, String text)
     {
         View tvFooter = sensorsLayout.findViewById(R.id.tvFooter);
-        // we use the same duration as animation for CheckMarkView
+        // we use same duration as animation for CheckMarkView
         FrequentAnimations.fadeIn(tvFooter, text);
     }
 }

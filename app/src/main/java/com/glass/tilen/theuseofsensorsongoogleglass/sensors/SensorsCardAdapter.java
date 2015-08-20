@@ -47,6 +47,7 @@ public class SensorsCardAdapter extends BaseCardAdapter {
         setTextForFooterView(sensorLayout);
 
     }
+
     @Override
     public int getPosition(Object o) {
         for (int i = 0; i <  SensorsCard.values().length; i++) {

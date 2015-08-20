@@ -16,8 +16,8 @@ import java.util.HashMap;
 public class SettingsActivity extends MultiLayoutActivity implements AdapterView.OnItemClickListener {
 
     private SettingsCardAdapterCommunicator mCommunicator;
-
     private long timer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,15 +38,13 @@ public class SettingsActivity extends MultiLayoutActivity implements AdapterView
     @Override
     public void onSpeechResult(String text) {
         super.onSpeechResult(text);
-        if(text.equals(getString(R.string.forward)))
-        {
+        if (text.equals(getString(R.string.forward))) {
             onItemClick(null, mCardScroller.getSelectedView(), mCardScroller.getSelectedItemPosition(), -1);
         }
     }
 
-    private HashMap<SettingsCardAdapter.SettingsCard,Boolean> getSettingsActions()
-    {
-        HashMap<SettingsCardAdapter.SettingsCard,Boolean> actions = new HashMap<SettingsCardAdapter.SettingsCard, Boolean>();
+    private HashMap<SettingsCardAdapter.SettingsCard, Boolean> getSettingsActions() {
+        HashMap<SettingsCardAdapter.SettingsCard, Boolean> actions = new HashMap<SettingsCardAdapter.SettingsCard, Boolean>();
         actions.put(SettingsCardAdapter.SettingsCard.SPEECH_RECOGNITION, Preferences.isSpeechRecognitionOn(this));
         return actions;
     }
@@ -55,26 +53,24 @@ public class SettingsActivity extends MultiLayoutActivity implements AdapterView
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Global.LogDebug("SettingsActivity.onItemClick()");
         //timer otherwise we could have problems
-            long difference = System.currentTimeMillis() - timer;
-            Global.LogDebug("SettingsActivity.onItemClick(): Difference between two click:" + difference );
-            if (difference < 500)
-                return;
-            else
-                timer = System.currentTimeMillis();
+        long difference = System.currentTimeMillis() - timer;
+        Global.LogDebug("SettingsActivity.onItemClick(): Difference between two click:" + difference);
+        if (difference < 500)
+            return;
+        else
+            timer = System.currentTimeMillis();
         mAudioManager.playSoundEffect(Sounds.SUCCESS);
         SettingsCardAdapter.SettingsCard mSettingsCard = mCommunicator.getItem(position);
-        switch (mSettingsCard)
-        {
+        switch (mSettingsCard) {
             case SPEECH_RECOGNITION:
                 Preferences.setSpeechRecognition(this);
                 String textToDisplay = mSpeechRecognition.setActive();
-                if(textToDisplay.equals("-1"))
+                if (textToDisplay.equals("-1"))
                     textToDisplay = getString(R.string.speak_disabled);
                 mCommunicator.changeActionText(mSettingsCard, view);
                 mCommunicator.setFadeOutFadeInAnimationForFooterTextView(view, textToDisplay);
                 setTextForFooter(textToDisplay, mCardScroller.getSelectedItemPosition());
                 break;
         }
-
     }
 }

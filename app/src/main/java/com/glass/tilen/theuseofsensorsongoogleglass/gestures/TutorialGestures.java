@@ -11,7 +11,6 @@ import com.google.android.glass.touchpad.GestureDetector;
  */
 public class TutorialGestures extends GestureDetector implements GestureDetector.BaseListener{
 
-
     public interface OnGestureCallback
     {
         boolean onGestureDetected(Gesture gesture);
@@ -30,5 +29,4 @@ public class TutorialGestures extends GestureDetector implements GestureDetector
         Global.LogDebug("TutorialGestures.onGesture()" + gesture);
         return mCallback.onGestureDetected(gesture);
     }
-
 }

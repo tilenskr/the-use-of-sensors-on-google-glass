@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         tools:ignore="UselessLeaf"
         >
+
         <TextView
             android:id="@+id/tvSensor"
             android:layout_width="match_parent"
@@ -48,8 +49,6 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             />
         </RelativeLayout>
-
-        <!-- Put your widgets inside this RelativeLayout. -->
 
     </RelativeLayout>
 

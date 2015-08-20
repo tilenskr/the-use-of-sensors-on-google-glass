@@ -33,6 +33,7 @@ public class TutorialActivity extends BaseMultiLayoutActivity implements Tutoria
      **/
     public final static String START_ACTIVITY = "start_activity";
     private boolean startActivity;
+
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);

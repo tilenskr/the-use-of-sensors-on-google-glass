@@ -150,5 +150,4 @@ public class TutorialCardAdapter extends BaseCardAdapter implements TutorialCard
             this.hasBeenDone = false;
         }
     }
-
 }

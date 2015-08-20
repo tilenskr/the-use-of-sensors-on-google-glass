@@ -18,7 +18,6 @@ public abstract class SingleLayoutActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();

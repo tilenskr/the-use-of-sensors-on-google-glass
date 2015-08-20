@@ -29,7 +29,6 @@ public class MainSensorManager implements SensorEventListener {
         void onSensorValueChanged(float[] values);
     }
 
-
     public static MainSensorManager getInstance(Context mContext) {
         if(ourInstance == null)
         {
