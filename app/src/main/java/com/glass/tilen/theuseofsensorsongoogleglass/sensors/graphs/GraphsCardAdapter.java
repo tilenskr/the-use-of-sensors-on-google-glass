@@ -84,8 +84,8 @@ public class GraphsCardAdapter extends BaseCardAdapter implements GraphsCardAdap
         GRAVITY(R.string.graphs_gravity, Sensor.TYPE_GRAVITY),
         GYROSCOPE(R.string.graphs_gyroscope, Sensor.TYPE_GYROSCOPE),
         LINEAR_ACCELERATION(R.string.graphs_linear, Sensor.TYPE_LINEAR_ACCELERATION),
-        MAGNETIC_FIELD(R.string.graphs_magnetic, Sensor.TYPE_MAGNETIC_FIELD),
-        ROTATION_VECTOR(R.string.graphs_rotation, Sensor.TYPE_ROTATION_VECTOR);
+        MAGNETIC_FIELD(R.string.graphs_magnetic, Sensor.TYPE_MAGNETIC_FIELD);
+        //ROTATION_VECTOR(R.string.graphs_rotation, Sensor.TYPE_ROTATION_VECTOR);
 
         private int sensor;
         private int sensorType;
