@@ -13,7 +13,9 @@ public class BitmapBrightnessTask   {
         void onBitmapLoaded(Bitmap bmp);
         void onPlaySoundEffect();
     }
+
     float[] previousValue = null;
+
     public void getBrightnessBitmap(final Context context,final BitmapBrightnessTasksCallback mCallback , final int pictureId, final float[] value)
     {
         new AsyncTask<Void, Void, Bitmap>() {
@@ -32,10 +34,6 @@ public class BitmapBrightnessTask   {
                 if(bitmap != null)
                     mCallback.onBitmapLoaded(bitmap);
             }
-
-
         }.execute();
     }
-
-
 }
