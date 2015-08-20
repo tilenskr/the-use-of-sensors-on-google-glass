@@ -10,6 +10,7 @@ import com.glass.tilen.theuseofsensorsongoogleglass.sensors.manager.MainSensorMa
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.utils.Utils;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
 import com.glass.tilen.theuseofsensorsongoogleglass.speechrecognition.SpeechRecognition;
+import com.google.android.glass.media.Sounds;
 
 public class GraphsActivity extends MultiLayoutActivity implements MainSensorManager.MainSensorManagerCallback,
         AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
@@ -72,6 +73,7 @@ public class GraphsActivity extends MultiLayoutActivity implements MainSensorMan
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        mAudioManager.playSoundEffect(Sounds.TAP);
         mCommunicator.changeAxis(mCardScroller.getSelectedView());
     }
 }
