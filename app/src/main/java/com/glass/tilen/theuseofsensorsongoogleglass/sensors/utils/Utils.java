@@ -11,9 +11,8 @@ import android.graphics.Paint;
  */
 public class Utils {
 
-    public static Bitmap setBrightness(Bitmap src, float[] value, float value1[]) {
+    public static Bitmap setBrightness(Bitmap src, float[] value) {
         if (value == null) return null;
-        value = lowPass(value, value1);
         if (value[0] > 1000)
             value[0] = Float.valueOf(1000);
         final int newValue = getCalculatedValue(value[0]);
@@ -42,8 +41,8 @@ public class Utils {
     /**
      * For smoothing values - previous value effects new value
      */
-    private static float[] lowPass(float input[], float output[]) {
-        if (input == null) return input;
+    public static float[] lowPass(float input[], float output[]) {
+        if (input == null) return output;
 
         for (int i = 0; i < input.length; i++) {
             output[i] = output[i] + 0.15f * (input[i] - output[i]);
@@ -60,5 +59,17 @@ public class Utils {
         for (int i = 0; i < values.length; i++)
             newValues[i] = (float) (values[i] / sqrtSum);
         return newValues;
+    }
+
+    public static float[] divideWithMaxValue(float[] values, float maximumRange, float multiplication)
+    {
+        for(int i= 0; i < values.length; i++ ) {
+            values[i] = values[i] / maximumRange * multiplication;
+            if(values[i] > 1)
+                values[i] = 1;
+            else if (values[i] < -1)
+                values[i] = -1;
+        }
+        return values;
     }
 }

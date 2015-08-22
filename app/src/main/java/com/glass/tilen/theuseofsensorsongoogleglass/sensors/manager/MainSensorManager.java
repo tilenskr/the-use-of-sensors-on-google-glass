@@ -6,6 +6,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import com.glass.tilen.theuseofsensorsongoogleglass.sensors.utils.Utils;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
 
 import java.util.Arrays;
@@ -24,6 +25,8 @@ public class MainSensorManager implements SensorEventListener {
      */
     private int samplesFrequency;
     private int sensorSampleCounter;
+    /** for low-pass filter **/
+    private float[] previousValues;
     public interface MainSensorManagerCallback
     {
         void onSensorValueChanged(float[] values);
@@ -61,6 +64,7 @@ public class MainSensorManager implements SensorEventListener {
     {
         this.samplesFrequency = samplesFrequency;
         sensorSampleCounter = 0;
+        previousValues = null;
         mSensorManager.unregisterListener(this);
         mSensorManager.registerListener(this, mSensors, SensorManager.SENSOR_DELAY_UI);
     }
@@ -83,12 +87,19 @@ public class MainSensorManager implements SensorEventListener {
         sensorSampleCounter %= samplesFrequency;
         if(sensorSampleCounter == 0) {
             Global.SensorsDebug("MainSensorManager.onSensorChanged(): values " + Arrays.toString(event.values));
-            mCallback.onSensorValueChanged(event.values);
+            float[] newValues = Utils.lowPass(previousValues, event.values);
+            previousValues = event.values;
+            mCallback.onSensorValueChanged(newValues);
         }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         Global.SensorsDebug("MainSensorManager.onAccuracyChanged(): accuracy: " + accuracy);
+    }
+
+    public float getSensorMaxValue()
+    {
+       return mSensors.getMaximumRange();
     }
 }

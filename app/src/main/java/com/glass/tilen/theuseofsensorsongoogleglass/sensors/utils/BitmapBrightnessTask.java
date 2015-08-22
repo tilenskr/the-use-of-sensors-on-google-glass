@@ -14,7 +14,6 @@ public class BitmapBrightnessTask   {
         void onPlaySoundEffect();
     }
 
-    float[] previousValue = null;
 
     public void getBrightnessBitmap(final Context context,final BitmapBrightnessTasksCallback mCallback , final int pictureId, final float[] value)
     {
@@ -22,13 +21,12 @@ public class BitmapBrightnessTask   {
             @Override
             protected Bitmap doInBackground(Void... params) {
                 Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), pictureId);
-                return Utils.setBrightness(bitmap, previousValue ,value);
+                return Utils.setBrightness(bitmap, value);
                 }
 
             @Override
             protected void onPostExecute(Bitmap bitmap) {
                 super.onPostExecute(bitmap);
-                previousValue = value;
                 if(value[0] < 4)
                     mCallback.onPlaySoundEffect();
                 if(bitmap != null)

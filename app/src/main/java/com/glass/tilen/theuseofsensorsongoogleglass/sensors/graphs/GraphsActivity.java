@@ -67,7 +67,15 @@ public class GraphsActivity extends MultiLayoutActivity implements MainSensorMan
 
     @Override
     public void onSensorValueChanged(float[] values) {
-        values = Utils.normalizeArray(values);
+        GraphsCardAdapter.GraphsCard mGraphsCard = (GraphsCardAdapter.GraphsCard) mCardScroller.getSelectedItem();
+        if(mGraphsCard == GraphsCardAdapter.GraphsCard.GYROSCOPE) {
+            values = Utils.divideWithMaxValue(values, mainSensorManager.getSensorMaxValue(), 8);
+            //Global.TestDebug("GraphsActivity.onSensorValueChanged() gyro. or l.acc: values " + Arrays.toString(values));
+        }
+        else if(mGraphsCard == GraphsCardAdapter.GraphsCard.LINEAR_ACCELERATION)
+            values = Utils.divideWithMaxValue(values, mainSensorManager.getSensorMaxValue(), 3);
+        else
+            values = Utils.normalizeArray(values);
         mCommunicator.addNewPoints(mCardScroller.getSelectedView(), values);
     }
 
