@@ -78,6 +78,18 @@ public class GraphsCardAdapter extends BaseCardAdapter implements GraphsCardAdap
         mChart.changeAxis();
     }
 
+    @Override
+    public void setChartLimits(View graphsLayout, float minValue, float maxValue) {
+        Chart mChart = (Chart) graphsLayout.getTag();
+        mChart.setChartLimits(minValue, maxValue);
+    }
+
+    @Override
+    public void setAdaptiveChartLimits(View graphsLayout) {
+        Chart mChart = (Chart) graphsLayout.getTag();
+        mChart.setAdaptiveChartLimits();
+    }
+
     public enum GraphsCard
     {
         ACCELEROMETER(R.string.graphs_accelerometer, Sensor.TYPE_ACCELEROMETER),

@@ -6,6 +6,8 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 
+import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
+
 /**
  * Created by Tilen on 13.8.2015.
  */
@@ -16,6 +18,7 @@ public class Utils {
         if (value[0] > 1000)
             value[0] = Float.valueOf(1000);
         final int newValue = getCalculatedValue(value[0]);
+        Global.TestDebug("Utils.setBrightness(): value: " + newValue);
         Bitmap bmpOut = Bitmap.createBitmap(src.getWidth(), src.getHeight(),
                 Bitmap.Config.ARGB_8888);
         ColorMatrix cMatrix = new ColorMatrix();
@@ -71,5 +74,26 @@ public class Utils {
                 values[i] = -1;
         }
         return values;
+    }
+
+    public static float getMaxValue(float[] array)
+    {
+        float maxValue = array[0];
+        for(int i=1;i < array.length;i++){
+            if(array[i] > maxValue){
+                maxValue = array[i];
+            }
+        }
+        return maxValue;
+    }
+    public static float getMinValue(float[] array)
+    {
+        float minValue = array[0];
+        for(int i=1;i<array.length;i++){
+            if(array[i] < minValue){
+                minValue = array[i];
+            }
+        }
+        return minValue;
     }
 }

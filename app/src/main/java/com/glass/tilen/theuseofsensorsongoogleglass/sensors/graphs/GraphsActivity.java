@@ -7,7 +7,6 @@ import android.widget.AdapterView;
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.inheritance.activity.MultiLayoutActivity;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.manager.MainSensorManager;
-import com.glass.tilen.theuseofsensorsongoogleglass.sensors.utils.Utils;
 import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
 import com.glass.tilen.theuseofsensorsongoogleglass.speechrecognition.SpeechRecognition;
 import com.google.android.glass.media.Sounds;
@@ -55,8 +54,18 @@ public class GraphsActivity extends MultiLayoutActivity implements MainSensorMan
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Global.LogDebug("GraphsActivity.onItemSelected(): Position: " + position);
-        mainSensorManager.setSensor(GraphsCardAdapter.GraphsCard.values()[position].getSensorType());
+        GraphsCardAdapter.GraphsCard mGraphCard = GraphsCardAdapter.GraphsCard.values()[position];
+        mainSensorManager.setSensor(mGraphCard.getSensorType());
         mainSensorManager.registerSensor(14);
+        switch (mGraphCard)
+        {
+            //case ACCELEROMETER:
+            case GRAVITY:
+                float maxValue = mainSensorManager.getSensorMaxValue();
+                maxValue = (float) Math.ceil(maxValue);
+                mCommunicator.setChartLimits(view, -maxValue, maxValue);
+                break;
+        }
     }
 
     @Override
@@ -68,14 +77,20 @@ public class GraphsActivity extends MultiLayoutActivity implements MainSensorMan
     @Override
     public void onSensorValueChanged(float[] values) {
         GraphsCardAdapter.GraphsCard mGraphsCard = (GraphsCardAdapter.GraphsCard) mCardScroller.getSelectedItem();
-        if(mGraphsCard == GraphsCardAdapter.GraphsCard.GYROSCOPE) {
-            values = Utils.divideWithMaxValue(values, mainSensorManager.getSensorMaxValue(), 8);
-            //Global.TestDebug("GraphsActivity.onSensorValueChanged() gyro. or l.acc: values " + Arrays.toString(values));
-        }
-        else if(mGraphsCard == GraphsCardAdapter.GraphsCard.LINEAR_ACCELERATION)
-            values = Utils.divideWithMaxValue(values, mainSensorManager.getSensorMaxValue(), 3);
-        else
-            values = Utils.normalizeArray(values);
+      /*  switch (mGraphsCard)
+       {
+            case GYROSCOPE:
+                values = Utils.divideWithMaxValue(values, mainSensorManager.getSensorMaxValue(), 8);
+                //Global.TestDebug("GraphsActivity.onSensorValueChanged() gyro. or l.acc: values " + Arrays.toString(values));
+                break;
+            case LINEAR_ACCELERATION:
+                values = Utils.divideWithMaxValue(values, mainSensorManager.getSensorMaxValue(), 2.3f);
+                break;
+            case MAGNETIC_FIELD:
+                //values = Utils.normalizeArray(values);
+                break;
+        }*/
+        mCommunicator.setAdaptiveChartLimits(mCardScroller.getSelectedView());
         mCommunicator.addNewPoints(mCardScroller.getSelectedView(), values);
     }
 

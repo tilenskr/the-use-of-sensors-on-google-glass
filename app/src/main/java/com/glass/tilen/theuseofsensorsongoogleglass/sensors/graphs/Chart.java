@@ -12,6 +12,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
+import com.glass.tilen.theuseofsensorsongoogleglass.sensors.utils.Utils;
 
 /**
  * Created by Tilen on 19.8.2015.
@@ -21,6 +22,10 @@ public class Chart {
     private LineChart mChart;
     /** 0 - only X-axis, 1 - only Y-axis, 2 - only Z-Axis, 3 - all axes **/
     private int axis;
+    /** track max and min for adaptive threshold for y-axis **/
+    boolean canUseAdaptive = false;
+    float min = -1;
+    float max = 1;
 
     public Chart(LineChart mChart, Context mContext)
     {
@@ -115,16 +120,47 @@ public class Chart {
             }
             lineData.addEntry(new Entry(values[i], (lineData.getXValCount() - 1)), i);
         }
+        if(canUseAdaptive = true) {
+            float tempMin = Utils.getMinValue(values);
+            float tempMax = Utils.getMaxValue(values);
+            if(tempMin < min)
+                min = tempMin;
+            if(tempMax > max)
+                max = tempMax;
+        }
         mChart.notifyDataSetChanged();
         // limit the number of visible entries
         mChart.setVisibleXRangeMaximum(20);
         // move to the latest entry
         mChart.moveViewToX(lineData.getXValCount() - 21);
+        canUseAdaptive = true;
     }
 
     public void changeAxis()
     {
         axis++;
         axis %= 4;
+    }
+
+    public void setChartLimits(float minValue, float maxValue)
+    {
+        YAxis leftAxis = mChart.getAxisLeft();
+        min = minValue;
+        max = maxValue;
+        leftAxis.setAxisMinValue(minValue);
+        leftAxis.setAxisMaxValue(maxValue);
+    }
+
+    public void setAdaptiveChartLimits()
+    {
+        if(!canUseAdaptive) {
+            canUseAdaptive = true;
+            return;
+        }
+        YAxis leftAxis = mChart.getAxisLeft();
+        if(min < leftAxis.getAxisMinValue())
+            leftAxis.setAxisMinValue(min);
+        if(max > leftAxis.getAxisMaxValue())
+            leftAxis.setAxisMaxValue(max);
     }
 }
