@@ -12,10 +12,13 @@ import com.glass.tilen.theuseofsensorsongoogleglass.speechrecognition.SpeechReco
 import com.google.android.glass.media.Sounds;
 
 public class GraphsActivity extends MultiLayoutActivity implements MainSensorManager.MainSensorManagerCallback,
-        AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
+        AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private GraphsCardAdapterCommunicator mCommunicator;
     private MainSensorManager mainSensorManager;
+
+    /** for testing purposes**/
+    private boolean showValues = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,7 @@ public class GraphsActivity extends MultiLayoutActivity implements MainSensorMan
         setContentView(mCardScroller);
         mCardScroller.setOnItemSelectedListener(this);
         mCardScroller.setOnItemClickListener(this);
+        mCardScroller.setOnItemLongClickListener(this);
         mainSensorManager = MainSensorManager.getInstance(this);
         mainSensorManager.setSensorCallback(this);
     }
@@ -89,13 +93,24 @@ public class GraphsActivity extends MultiLayoutActivity implements MainSensorMan
                 //values = Utils.normalizeArray(values);
                 break;
         }*/
-        mCommunicator.setAdaptiveChartLimits(mCardScroller.getSelectedView());
-        mCommunicator.addNewPoints(mCardScroller.getSelectedView(), values);
+        if(showValues == true) {
+            mCommunicator.setAdaptiveChartLimits(mCardScroller.getSelectedView());
+            mCommunicator.addNewPoints(mCardScroller.getSelectedView(), values);
+        }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mAudioManager.playSoundEffect(Sounds.TAP);
         mCommunicator.changeAxis(mCardScroller.getSelectedView());
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        if(Global.isTestingOn()) {
+            showValues = !showValues;
+            return true;
+        }
+        return false;
     }
 }
