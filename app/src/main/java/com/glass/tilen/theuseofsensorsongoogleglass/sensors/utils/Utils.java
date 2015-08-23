@@ -6,19 +6,21 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 
-import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
-
 /**
  * Created by Tilen on 13.8.2015.
  */
 public class Utils {
 
-    public static Bitmap setBrightness(Bitmap src, float[] value) {
-        if (value == null) return null;
-        if (value[0] > 1000)
-            value[0] = Float.valueOf(1000);
-        final int newValue = getCalculatedValue(value[0]);
-        Global.TestDebug("Utils.setBrightness(): value: " + newValue);
+    public static int getBrightnessValue(float value)
+    {
+        if (value > 1000)
+            value = Float.valueOf(1000);
+        int newValue = getCalculatedValue(value);
+        //Global.TestDebug("Utils.setBrightness(): value: " + newValue);
+        return newValue;
+    }
+
+    public static Bitmap setBrightness(Bitmap src, int newValue) {
         Bitmap bmpOut = Bitmap.createBitmap(src.getWidth(), src.getHeight(),
                 Bitmap.Config.ARGB_8888);
         ColorMatrix cMatrix = new ColorMatrix();

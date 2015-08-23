@@ -76,7 +76,6 @@ public class GraphsActivity extends MultiLayoutActivity implements MainSensorMan
 
     @Override
     public void onSensorValueChanged(float[] values) {
-        GraphsCardAdapter.GraphsCard mGraphsCard = (GraphsCardAdapter.GraphsCard) mCardScroller.getSelectedItem();
       /*  switch (mGraphsCard)
        {
             case GYROSCOPE:
