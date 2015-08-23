@@ -13,6 +13,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.glass.tilen.theuseofsensorsongoogleglass.R;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.utils.Utils;
+import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
 
 /**
  * Created by Tilen on 19.8.2015.
@@ -67,15 +68,21 @@ public class Chart {
         xl.setDrawGridLines(false);
         xl.setAvoidFirstLastClipping(true);
         xl.setSpaceBetweenLabels(5);
-        xl.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xl.setEnabled(false);
+        xl.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
+        if(Global.isTestingOn())
+            xl.setEnabled(true);
+        else
+            xl.setEnabled(false);
 
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setTextColor(Color.WHITE);
         leftAxis.setAxisMaxValue(1);
         leftAxis.setAxisMinValue(-1);
         leftAxis.setStartAtZero(false);
-        leftAxis.setDrawGridLines(false);
+        if(Global.isTestingOn())
+            leftAxis.setDrawGridLines(true);
+        else
+            leftAxis.setDrawGridLines(false);
 
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setEnabled(false);
@@ -110,7 +117,10 @@ public class Chart {
     public void addSensorValues(float[] values)
     {
         LineData lineData = mChart.getData();
-        lineData.addXValue(String.valueOf(lineData.getXValCount()));
+        if(Global.isTestingOn())
+            lineData.addXValue("");
+        else
+            lineData.addXValue(String.valueOf(lineData.getXValCount()));
         for(int i = 0; i < 3; i++)
         {
             if(axis != i && axis != 3) {
