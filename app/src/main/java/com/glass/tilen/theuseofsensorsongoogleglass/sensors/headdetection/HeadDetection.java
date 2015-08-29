@@ -31,7 +31,6 @@ public class HeadDetection {
     private final BroadcastReceiver broadCastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
             if (Intents.ACTION_ON_HEAD_STATE_CHANGED.equals(intent.getAction())) {
                 boolean onHead = intent.getBooleanExtra(Intents.EXTRA_IS_ON_HEAD,
                         false);
