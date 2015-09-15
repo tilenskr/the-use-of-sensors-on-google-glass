@@ -78,12 +78,24 @@ public class GraphsCardAdapter extends BaseCardAdapter implements GraphsCardAdap
         mChart.changeAxis();
     }
 
+    @Override
+    public void setChartLimits(View graphsLayout, float minValue, float maxValue) {
+        Chart mChart = (Chart) graphsLayout.getTag();
+        mChart.setChartLimits(minValue, maxValue);
+    }
+
+    @Override
+    public void setAdaptiveChartLimits(View graphsLayout) {
+        Chart mChart = (Chart) graphsLayout.getTag();
+        mChart.setAdaptiveChartLimits();
+    }
+
     public enum GraphsCard
     {
         ACCELEROMETER(R.string.graphs_accelerometer, Sensor.TYPE_ACCELEROMETER),
         GRAVITY(R.string.graphs_gravity, Sensor.TYPE_GRAVITY),
-        GYROSCOPE(R.string.graphs_gyroscope, Sensor.TYPE_GYROSCOPE),
         LINEAR_ACCELERATION(R.string.graphs_linear, Sensor.TYPE_LINEAR_ACCELERATION),
+        GYROSCOPE(R.string.graphs_gyroscope, Sensor.TYPE_GYROSCOPE),
         MAGNETIC_FIELD(R.string.graphs_magnetic, Sensor.TYPE_MAGNETIC_FIELD);
         //ROTATION_VECTOR(R.string.graphs_rotation, Sensor.TYPE_ROTATION_VECTOR);
 

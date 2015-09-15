@@ -12,6 +12,7 @@ import com.glass.tilen.theuseofsensorsongoogleglass.inheritance.activity.SingleL
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.manager.MainSensorManager;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.utils.BitmapBrightnessTask;
 import com.glass.tilen.theuseofsensorsongoogleglass.sensors.utils.SoundPlayer;
+import com.glass.tilen.theuseofsensorsongoogleglass.settings.Global;
 import com.glass.tilen.theuseofsensorsongoogleglass.speechrecognition.SpeechRecognition;
 
 public class AmbientLightActivity extends SingleLayoutActivity implements
@@ -22,10 +23,13 @@ public class AmbientLightActivity extends SingleLayoutActivity implements
     private BitmapBrightnessTask mBitmapBrightnessTask;
     private SoundPlayer mSoundPlayer;
 
+    private TextView tvAmbientValue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ambient_light_layout);
+        tvAmbientValue = (TextView) findViewById(R.id.tvAmbientValue);
         tvFooter = (TextView) findViewById(R.id.tvFooter);
         ivPicture = (ImageView) findViewById(R.id.ivPicture);
         mainSensorManager = MainSensorManager.getInstance(this);
@@ -52,8 +56,10 @@ public class AmbientLightActivity extends SingleLayoutActivity implements
 
     @Override
     public void onSensorValueChanged(float[] values) {
-        mBitmapBrightnessTask.getBrightnessBitmap(this, this, R.drawable.zombie, values);
-        //tvFooter.setText(String.valueOf(values[0])); // for testing purposes
+        mBitmapBrightnessTask.getBrightnessBitmap(this, this, R.drawable.zombie, values[0]);
+        // if it's on we will show value in the corner where it should be timestamp
+        if(Global.isTestingOn())
+            tvAmbientValue.setText(String.valueOf(values[0]));
     }
 
     @Override
@@ -65,5 +71,12 @@ public class AmbientLightActivity extends SingleLayoutActivity implements
     @Override
     public void onPlaySoundEffect() {
        mSoundPlayer.play(R.raw.zombie_death, false);
+    }
+
+    @Override
+    public void onFinalValue(int value) {
+        // if it's on we will show value in the corner where it should be timestamp
+        //if(Global.isTestingOn())
+            //tvAmbientValue.setText(String.valueOf(value));
     }
 }

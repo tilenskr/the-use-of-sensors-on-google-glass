@@ -11,12 +11,16 @@ import android.graphics.Paint;
  */
 public class Utils {
 
-    public static Bitmap setBrightness(Bitmap src, float[] value, float value1[]) {
-        if (value == null) return null;
-        value = lowPass(value, value1);
-        if (value[0] > 1000)
-            value[0] = Float.valueOf(1000);
-        final int newValue = getCalculatedValue(value[0]);
+    public static int getBrightnessValue(float value)
+    {
+        if (value > 1000)
+            value = Float.valueOf(1000);
+        int newValue = getCalculatedValue(value);
+        //Global.TestDebug("Utils.setBrightness(): value: " + newValue);
+        return newValue;
+    }
+
+    public static Bitmap setBrightness(Bitmap src, int newValue) {
         Bitmap bmpOut = Bitmap.createBitmap(src.getWidth(), src.getHeight(),
                 Bitmap.Config.ARGB_8888);
         ColorMatrix cMatrix = new ColorMatrix();
@@ -42,8 +46,8 @@ public class Utils {
     /**
      * For smoothing values - previous value effects new value
      */
-    private static float[] lowPass(float input[], float output[]) {
-        if (input == null) return input;
+    public static float[] lowPass(float input[], float output[]) {
+        if (input == null) return output;
 
         for (int i = 0; i < input.length; i++) {
             output[i] = output[i] + 0.15f * (input[i] - output[i]);
@@ -60,5 +64,38 @@ public class Utils {
         for (int i = 0; i < values.length; i++)
             newValues[i] = (float) (values[i] / sqrtSum);
         return newValues;
+    }
+
+    public static float[] divideWithMaxValue(float[] values, float maximumRange, float multiplication)
+    {
+        for(int i= 0; i < values.length; i++ ) {
+            values[i] = values[i] / maximumRange * multiplication;
+            if(values[i] > 1)
+                values[i] = 1;
+            else if (values[i] < -1)
+                values[i] = -1;
+        }
+        return values;
+    }
+
+    public static float getMaxValue(float[] array)
+    {
+        float maxValue = array[0];
+        for(int i=1;i < array.length;i++){
+            if(array[i] > maxValue){
+                maxValue = array[i];
+            }
+        }
+        return maxValue;
+    }
+    public static float getMinValue(float[] array)
+    {
+        float minValue = array[0];
+        for(int i=1;i<array.length;i++){
+            if(array[i] < minValue){
+                minValue = array[i];
+            }
+        }
+        return minValue;
     }
 }

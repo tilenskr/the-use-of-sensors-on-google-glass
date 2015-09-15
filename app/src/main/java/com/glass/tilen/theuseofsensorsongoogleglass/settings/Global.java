@@ -23,6 +23,9 @@ public class Global {
     private static final boolean speech = true;
     private static final boolean sensors = true;
 
+    /** functionalities for testing **/
+    private static final boolean testing = true;
+
     public static void LogDebug(String message) {
         if (debug)
             Log.d(DEBUGTAG, message);
@@ -56,5 +59,10 @@ public class Global {
     public static AudioManager getAudioManager(Context context)
     {
         return (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+    }
+
+    public static boolean isTestingOn()
+    {
+        return testing;
     }
 }
